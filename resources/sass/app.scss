@@ -1,0 +1,164 @@
+//
+@import "~bootstrap";
+@import "~font-awesome";
+@import "~toastr";
+
+@import "variables";
+@import "font";
+
+@mixin breakpoint($class) {
+    @if $class == xs {
+        @media (max-width: 767px) {
+            @content;
+        }
+    } @else if $class == sm {
+        @media (min-width: 768px) {
+            @content;
+        }
+    } @else if $class == md {
+        @media (min-width: 992px) {
+            @content;
+        }
+    } @else if $class == lg {
+        @media (min-width: 1200px) {
+            @content;
+        }
+    } @else {
+        @warn "Breakpoint mixin supports: xs, sm, md, lg";
+    }
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    //noinspection CssNoGenericFontName
+    font-family: IRANSans !important;
+    font-weight: 300;
+    direction: rtl;
+    margin: 0;
+    background-color: $body-background-color;
+}
+
+p, h1, h2, h3, h4, h5, h6, input, textarea, span {
+    //noinspection CssNoGenericFontName
+    font-family: IRANSans !important;
+    line-height: $line-height-base !important;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+//li {
+//  text-decoration: none;
+//  list-style: none;
+//}
+
+a {
+    color: inherit;
+}
+
+b, strong {
+    font-weight: bold !important;
+}
+
+a:hover {
+    color: $primary-color;
+    text-decoration: none;
+}
+
+label {
+    display: block;
+    text-align: right;
+}
+
+.table th {
+    background-color: $dark-background;
+    color: $light
+}
+
+.table th, .table td {
+    text-align: center !important;
+}
+
+#status-bar {
+    width: 100%;
+    margin: 0;
+    background: $status-bar-background-color;
+    text-align: right;
+    border-bottom: $divider-size solid $divider-color;
+}
+
+#time-container {
+    margin-right: $margin;
+}
+
+#religious-time {
+    cursor: pointer;
+}
+
+#app-bar {
+    background-color: $app-bar-background-color;
+    text-align: right;
+    padding: $padding-small $padding;
+}
+
+#app-bar-menu-container {
+    margin-right: $margin;
+
+    li {
+        margin-left: $margin;
+        cursor: pointer;
+    }
+}
+
+.app-bar-menu {
+    min-width: $app-bar-drop-down-height;
+    padding: $padding-small;
+}
+
+#app-bar .dropdown-item:hover {
+    background: $primary-color !important;
+    color: white !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: $white;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
+}
+
+#search-container {
+    padding-left: $padding-small;
+
+    input {
+        border-color: $divider-color;
+        box-shadow: 0 1px 1px transparent inset, 0 0 8px transparent;
+        outline: 0 none;
+        border-radius: 50px !important;
+    }
+}
+
+#app-bar-search-button {
+    background: white;
+    padding: 0;
+    border: none;
+}
+
+#logo {
+    width: 48px;
+}
+
+#main {
+    min-height: 100%;
+    height: 100%;
+}
