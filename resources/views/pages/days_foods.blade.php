@@ -4,9 +4,9 @@
     <button class="btn btn-info m-1" id="new-menu-btn">ثبت منوی جدید</button>
 
 
-    <div class="modal fade" id="new-menu-Modal" tabindex="-1" role="dialog" aria-labelledby="nnew-menu-ModalLabel"
+    <div class="modal fade" id="new-menu-Modal" tabindex="-1" role="dialog" aria-labelledby="new-menu-ModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="new-menu-ModalLabel">ثبت اطلاعات منو</h5>
@@ -15,7 +15,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="date" id="date">
+                    <div class="form-group">
+                        <label for="date">انتخاب تاریخ</label>
+                        <input type="text" class="form-control" name="date" id="date">
+                    </div>
+                    <div class="form-group">
+                        <ul>
+                            <li></li>
+                        </ul>
+                        <button class="btn btn-info" id="list-foods"><i class="fa fa-plus"></i></button>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
@@ -25,12 +34,48 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="list-foods-Modal" tabindex="-1" role="dialog" aria-labelledby="list-foods-ModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="list-foods-ModalLabel">لیست غذاها</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if(!is_null($foods) && count($foods) > 0)
+                        <div class="row">
+                            @foreach($foods as $food)
+                                <div class="col-4 m-auto">
+                                    <div class="border rounded m-1">
+                                        <p class="text-center">{{$food->name}}</p>
+                                        <div class="btn-group-toggle m-auto" data-toggle="buttons">
+                                            <label class="btn btn-secondary active">
+                                                <input type="checkbox" name="food-{{$food->id}}" class="foods"
+                                                       autocomplete="off"> انتخاب
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <h3 class="text-center alert alert-info">هیچ غذایی ثبت نشده است</h3>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                    <button type="button" class="btn btn-primary" id="new-food">انتخاب</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('js')
-    <script src="//cdn.jsdelivr.net/jspersiancal/0.2.1/js-persian-cal.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#date").persianCalendar();
             $("#new-menu-btn").click(function () {
                 $("#new-menu-Modal").modal('toggle');
                 $("#edit-food").addClass('d-none');
@@ -58,6 +103,10 @@
                         });
                 });
             });
+
+            $("#list-foods").click(function () {
+                $("#list-foods-Modal").modal('toggle');
+            })
 
             $('.edit-food').click(function () {
                 let id = $(this).attr('data-food-id');
