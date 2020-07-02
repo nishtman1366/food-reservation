@@ -18,4 +18,11 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name', 'last_name', 'national_code', 'personal_code', 'username', 'password', 'gender', 'api_token'
     ];
+
+    protected $appends = ['name'];
+
+    public function getNameAttribute()
+    {
+        return sprintf('%s %s', $this->attributes['first_name'], $this->attributes['last_name']);
+    }
 }

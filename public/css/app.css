@@ -14398,3 +14398,11 @@ label {
   font-size: 10px;
 }
 
+.food-item {
+  cursor: pointer;
+}
+
+.tooltip-inner {
+  font-family: IRANSans;
+}
+

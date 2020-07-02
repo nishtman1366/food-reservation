@@ -5,27 +5,29 @@
     <div class="row">
         @if(!is_null($dayFoods) && count($dayFoods) > 0)
             @foreach($dayFoods as $dayFood)
-                <div class="col-12 col-md-6">
+                <div id="menu-row-{{str_replace('/','-',$dayFood['date'])}}" class="col-12 col-md-6">
                     <div class="row border rounded m-1" style="height: 100px">
                         <div class="col-5 text-center d-flex flex-column">
                             <div class="p-2">{{$dayFood['date']}}<br>{{$dayFood['weekday']}}</div>
                             <div class="p-2">
                                 <i data-date="{{$dayFood['date']}}" class="fa fa-pencil text-primary edit-menu"
                                    style="cursor: pointer" data-ids="{{$dayFood['ids']}}"></i>
-                                <i class="fa fa-trash text-danger delete-menu" style="cursor: pointer"></i>
+                                <i data-date="{{$dayFood['date']}}" class="fa fa-trash text-danger delete-menu"
+                                   style="cursor: pointer"></i>
                             </div>
                         </div>
                         <div class="col-7 text-center d-flex flex-column">
                             @foreach($dayFood['foods'] as $item)
-                                <div class="p-2 text-muted text-small text-nowrap"><i
-                                        class="fa fa-cutlery"></i> {{$item->food->name}}</div>
+                                <div class="p-2 text-muted text-small text-nowrap">
+                                    <i class="fa fa-cutlery"></i> {{$item->food->name}}
+                                </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
             @endforeach
         @else
-            <h3 class="text-info text-center">هیچ منویی یافت نشد.</h3>
+            <h3 class="col-12 text-info text-center">موردی برای نمایش یافت نشد.</h3>
         @endif
     </div>
     <div class="modal fade" id="new-menu-Modal" tabindex="-1" role="dialog" aria-labelledby="new-menu-ModalLabel"
@@ -154,7 +156,31 @@
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-                            // $("#new-food-Modal").modal('toggle');
+                            $("#new-food-Modal").modal('toggle');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        });
+                });
+            });
+
+            $('.delete-menu').click(function () {
+                let date = $(this).attr('data-date');
+                toastr.warning('آیا از حذف این مورد مطمئن هستید؟' +
+                    '<br>' +
+                    '<button id="confirm-delete" class="btn btn-danger m-1">بله</button>' +
+                    '<button class="btn btn-secondary clear m-1">خیر</button>');
+                $("#confirm-delete").click(function () {
+                    console.log('s.th clicked!', date);
+                    Axios.delete('days-foods/' + date.replace('/', '-').replace('/', '-'))
+                        .then(function (response) {
+                            toastr.success('با موفقیت انجام شد.');
+                            $("#menu-row-" + date.replace('/', '-').replace('/', '-')).remove();
+                        })
+                        .catch(function (error) {
+                            toastr.error('به علت اشکال داخلی انجام نشد.');
+                        })
+                        .finally(function () {
                             // setTimeout(function () {
                             //     window.location.reload();
                             // }, 1000);
@@ -162,10 +188,10 @@
                 });
             });
 
-
             $("#list-foods").click(function () {
                 $("#list-foods-Modal").modal('toggle');
             });
+
             $("#select-foods").click(function () {
                 foodsList = [];
                 $("#selected-foods-list > li").remove();
@@ -179,64 +205,6 @@
                     $("#selected-foods-list").append('<li class="text-right m-1">' + name + '</li>');
                 });
                 $("#list-foods-Modal").modal('toggle');
-            });
-
-            $('.edit-food').click(function () {
-                let id = $(this).attr('data-food-id');
-                let row = $('#food-row-' + id);
-                let name = row.children(':first').next().html();
-                let description = row.children(':first').next().next().next().html();
-                $("#new-food-Modal").modal('toggle');
-                $("#name").val(name);
-                let image = $('#image');
-                $("#description").val(description);
-                $("#new-food").addClass('d-none');
-                $("#edit-food").removeClass('d-none');
-                $('#edit-food').click(function () {
-                    let name = $('#name').val();
-                    let image = $('#image');
-                    let description = $('#description').val();
-                    let formData = new FormData();
-                    formData.append("name", name);
-                    formData.append("file", image[0].files[0]);
-                    formData.append("description", description);
-                    Axios.post('foods/' + id, formData, {headers: {'Content-Type': 'multipart/form-data'}})
-                        .then(function (response) {
-                            toastr.success('با موفقیت انجام شد.');
-                        })
-                        .catch(function (error) {
-                            toastr.error('به علت اشکال داخلی انجام نشد.');
-                        })
-                        .finally(function () {
-                            $("#new-food-Modal").modal('toggle');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
-                        });
-                });
-            });
-
-            $('.delete-food').click(function () {
-                let id = $(this).attr('data-food-id');
-                toastr.warning('آیا از حذف این مورد مطمئن هستید؟' +
-                    '<br>' +
-                    '<button id="confirm-delete" class="btn btn-danger m-1">بله</button>' +
-                    '<button class="btn btn-secondary clear m-1">خیر</button>');
-                $("#confirm-delete").click(function () {
-                    Axios.delete('foods/' + id)
-                        .then(function (response) {
-                            toastr.success('با موفقیت انجام شد.');
-                            $("#food-row-" + id).remove();
-                        })
-                        .catch(function (error) {
-                            toastr.error('به علت اشکال داخلی انجام نشد.');
-                        })
-                        .finally(function () {
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
-                        });
-                });
             });
         });
     </script>

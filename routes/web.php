@@ -31,8 +31,13 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     });
 
 
-//    Route::get('/reservations', '')->name('reservations');
+    Route::prefix('orders')->group(function () {
+        Route::get('/', 'OrderController@index')->name('orders');
+    });
 
+    Route::prefix('reports')->group(function () {
+        Route::get('/', 'ReportController@index')->name('reports.list');
+    });
 
     Route::post('/logout', 'DashboardController@logout')->name('logout');
 });

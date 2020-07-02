@@ -17,10 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('foods', 'FoodController@create');
-Route::post('foods/{id}', 'FoodController@update');
-Route::delete('foods/{id}', 'FoodController@delete');
+Route::middleware('auth:api')->group(function(){
+    Route::post('foods', 'FoodController@create');
+    Route::post('foods/{id}', 'FoodController@update');
+    Route::delete('foods/{id}', 'FoodController@delete');
 
-Route::post('days-foods', 'DaysFoodController@create');
-Route::put('days-foods', 'DaysFoodController@update');
+    Route::post('days-foods', 'DaysFoodController@create');
+    Route::put('days-foods', 'DaysFoodController@update');
+    Route::delete('days-foods/{date}', 'DaysFoodController@delete');
+    Route::post('reservations', 'OrderController@create');
+});
 

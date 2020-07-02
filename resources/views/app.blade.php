@@ -48,40 +48,45 @@
                     صفحه اصلی
                 </a>
             </li>
-            <li class="nav-item font-size-normal dropdown">
-                <a class="nav-link dropdown-toggle app-bar-menu-item"
-                   id="foods-reservation"
-                   href="{{route('foods.reservation')}}"
-                   role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    رزرو غذا
-                </a>
-                <div class="app-bar-menu dropdown-menu dropdown-menu-right" aria-labelledby="#foods-reservation">
-                    <div>
-                        <a class="dropdown-item text-right font-size-small"
-                           href="{{route('foods.list')}}">
-                            لیست غذاها
+            @auth
+                @if(Auth::user()->level==1)
+                    <li class="nav-item font-size-normal dropdown">
+                        <a class="nav-link dropdown-toggle app-bar-menu-item"
+                           id="foods-reservation"
+                           href="{{route('foods.reservation')}}"
+                           role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            رزرو غذا
                         </a>
-                    </div>
-                    <div>
-                        <a class="dropdown-item text-right font-size-small"
-                           href="{{route('days.foods')}}">
-                            مدیریت منوها
+                        <div class="app-bar-menu dropdown-menu dropdown-menu-right"
+                             aria-labelledby="#foods-reservation">
+                            <div>
+                                <a class="dropdown-item text-right font-size-small"
+                                   href="{{route('foods.list')}}">
+                                    لیست غذاها
+                                </a>
+                            </div>
+                            <div>
+                                <a class="dropdown-item text-right font-size-small"
+                                   href="{{route('days.foods')}}">
+                                    مدیریت منوها
+                                </a>
+                            </div>
+                            <div>
+                                <a class="dropdown-item text-right font-size-small"
+                                   href="yahoo.com">
+                                    سفارشات
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item font-size-normal dropdown">
+                        <a class="nav-link app-bar-menu-item" href="{{route('users.list')}}" role="button">
+                            مدیریت کاربران
                         </a>
-                    </div>
-                    <div>
-                        <a class="dropdown-item text-right font-size-small"
-                           href="yahoo.com">
-                            سفارشات
-                        </a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item font-size-normal dropdown">
-                <a class="nav-link app-bar-menu-item" href="{{route('users.list')}}" role="button">
-                    مدیریت کاربران
-                </a>
-            </li>
+                    </li>
+                @endif
+            @endauth
         </ul>
     </div>
 </nav>
@@ -89,6 +94,7 @@
     @yield('content')
 </div>
 <script src="{{asset('js/app.js')}}"></script>
+<script src="{{asset('assets/vendor/PersianNumber/persianumber.min.js')}}"></script>
 @stack('js')
 </body>
 </html>

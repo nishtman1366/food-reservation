@@ -47,6 +47,34 @@ class DaysFoodController extends Controller
 
     public function update(Request $request)
     {
-        return response()->json($request->all());
+        $jDate = explode('/', $request->get('date'));
+        $date = (new Jalalian($jDate[0], $jDate[1], $jDate[2]))->toCarbon();
+        $foods = DaysFood::where('date', $date)->get();
+        $newMenu = $request->get('foodsList');
+        $idsList = [];
+        foreach ($newMenu as $item) {
+            $idsList[] = $item['id'];
+        }
+        $deleteList = [];
+        foreach ($foods as $food) {
+            $stay = array_search($food->food_id, $idsList);
+            if ($stay === false) $food->delete();
+        }
+        foreach ($newMenu as $food) {
+            DaysFood::firstOrCreate([
+                'date' => $date,
+                'food_id' => $food['id']
+            ]);
+        }
+        return response()->json();
+    }
+
+    public function delete(Request $request)
+    {
+        $jDate = explode('-', $request->route('date'));
+        $date = (new Jalalian($jDate[0], $jDate[1], $jDate[2]))->toCarbon();
+        DaysFood::where('date', $date)->delete();
+
+        return response()->json();
     }
 }
