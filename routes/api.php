@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('foods', 'FoodController@create');
 Route::post('foods/{id}', 'FoodController@update');
 Route::delete('foods/{id}', 'FoodController@delete');
+
+Route::post('days-foods', 'DaysFoodController@create');
+Route::put('days-foods', 'DaysFoodController@update');
+

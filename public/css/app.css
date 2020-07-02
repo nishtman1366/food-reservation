@@ -14394,3 +14394,7 @@ label {
   height: 100%;
 }
 
+.text-small {
+  font-size: 10px;
+}
+
