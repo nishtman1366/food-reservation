@@ -2,7 +2,7 @@ require('./bootstrap');
 
 $(document).ready(function () {
     window.Axios = axios.create({
-        baseURL: 'http://192.168.2.251:8000/api/',
+        baseURL: 'http://192.168.2.250/api/',
         timeout: 5000,
     });
 
