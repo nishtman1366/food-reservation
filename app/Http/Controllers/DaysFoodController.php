@@ -22,7 +22,8 @@ class DaysFoodController extends Controller
                 $ids[] = (string)$food->food_id;
             }
             $list[] = [
-                'date' => $day->jDate,
+                'jDate' => $day->jDate,
+                'gDate' => Carbon::create($day->date)->format('Y/m/d'),
                 'weekday' => $day->weekday,
                 'ids' => json_encode($ids),
                 'foods' => $dayFoods
@@ -34,8 +35,8 @@ class DaysFoodController extends Controller
 
     public function create(Request $request)
     {
-        $jDate = explode('/', $request->get('date'));
-        $date = (new Jalalian($jDate[0], $jDate[1], $jDate[2]))->toCarbon();
+        $gDate = $request->get('gDate');
+        $date = \Carbon\Carbon::createFromFormat('Y/m/d', $gDate)->hour(0)->minute(0)->second(0);
         foreach ($request->get('foodsList') as $food) {
             DaysFood::create([
                 'date' => $date,
@@ -47,8 +48,8 @@ class DaysFoodController extends Controller
 
     public function update(Request $request)
     {
-        $jDate = explode('/', $request->get('date'));
-        $date = (new Jalalian($jDate[0], $jDate[1], $jDate[2]))->toCarbon();
+        $gDate = $request->get('gDate');
+        $date = \Carbon\Carbon::createFromFormat('Y/m/d', $gDate)->hour(0)->minute(0)->second(0);
         $foods = DaysFood::where('date', $date)->get();
         $newMenu = $request->get('foodsList');
         $idsList = [];

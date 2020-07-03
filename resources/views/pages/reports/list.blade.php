@@ -3,12 +3,12 @@
 @section('dashboard_content')
     <div class="row">
         <div class="col-12 col-md-3">
-            <a href="{{route('reports.view',['name'=>'Food-orders'])}}"
+            <a href="{{route('reports.view',['name'=>'Food-Orders'])}}"
                class="btn btn-outline-info {{isset($active) && $active==1 ? 'active' : ''}} col-12 m-1">لیست سفارشات
                 غذا</a>
         </div>
         <div class="col-12 col-md-3">
-            <a href="{{route('reports.view',['name'=>'user-orders'])}}" class="btn btn-outline-warning {{isset($active) && $active==2 ? 'active' : ''}} col-12 m-1">لیست
+            <a href="{{route('reports.view',['name'=>'User-Orders'])}}" class="btn btn-outline-warning {{isset($active) && $active==2 ? 'active' : ''}} col-12 m-1">لیست
                 غذای پرسنل</a>
         </div>
     </div>

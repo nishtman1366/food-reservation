@@ -1,7 +1,7 @@
-@extends('pages.reports.list',['active'=>1])
+@extends('pages.reports.list',['active'=>2])
 
 @section('reports_content')
-    <form action="{{route('reports.view',['name'=>'Food-Orders'])}}" method="post">
+    <form action="{{route('reports.view',['name'=>'User-Orders'])}}" method="post">
         @csrf
         <input type="hidden" name="gDate" id="gDate" value="{{isset($gDate) && !is_null($gDate) ? $gDate : ''}}">
         <div class="row">
@@ -13,11 +13,8 @@
                            class="form-control border-right-0 border-left-0" readonly
                            style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
                            value="{{isset($jDate) && !is_null($jDate) ? $jDate : ''}}">
-                    <button class="btn btn-primary border-right-0"
-                            style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو
-                    </button>
+                    <button class="btn btn-primary border-right-0" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو</button>
                 </div>
-
             </div>
             <div class="col-6 pull-left">
                 @if(!is_null($downloadLink))
@@ -39,14 +36,14 @@
                 </tr>
                 <tr>
                     <th scope="col">ردیف</th>
+                    <th scope="col">نام</th>
                     <th scope="col">نام غذا</th>
-                    <th scope="col">تعداد</th>
                 </tr>
                 @foreach($list as $item)
                     <tr>
                         <td class="persian-numbers">{{$item['#']}}</td>
                         <td>{{$item['name']}}</td>
-                        <td class="persian-numbers">{{$item['count']}}</td>
+                        <td class="persian-numbers">{{$item['food']}}</td>
                     </tr>
                 @endforeach
             </table>
@@ -61,7 +58,6 @@
     <script>
         $(document).ready(function () {
             $('#jDate').MdPersianDateTimePicker({
-                // dateFormat: 'Y/m/d',
                 disableBeforeToday: true,
                 targetTextSelector: '#jDate',
                 targetDateSelector: '#gDate'

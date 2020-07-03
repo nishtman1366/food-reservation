@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'national_code', 'personal_code', 'username', 'password', 'gender', 'api_token'
+        'first_name', 'last_name', 'username', 'password', 'national_code', 'personal_code', 'gender', 'api_token', 'level'
     ];
 
     protected $appends = ['name'];
@@ -24,5 +24,24 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return sprintf('%s %s', $this->attributes['first_name'], $this->attributes['last_name']);
+    }
+
+    public function setApiTokenAttribute($value)
+    {
+        $this->attributes['api_token'] = $this->createToken();
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = \Illuminate\Support\Facades\Hash::make($value);
+    }
+
+    private function createToken()
+    {
+        $token = \Illuminate\Support\Str::random(60);
+        $existence = $this->where('api_token', $token)->exists();
+        if ($existence) return $this->createToken();
+
+        return $token;
     }
 }

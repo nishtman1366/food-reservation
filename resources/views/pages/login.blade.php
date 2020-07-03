@@ -1,12 +1,13 @@
 @extends('app')
 
 @section('content')
-    <div class="container-fluid d-flex flex-column" style="background-image: url('{{asset('assets/images/home-container-bg.png')}}')">
+    <div class="container-fluid d-flex flex-column h-100" style="background-image: url('{{asset('assets/images/home-bg.jpg')}}');background-size: cover">
         <div class="row flex-grow-1">
-            <div class="col-12 col-md-4 p-1">
+            <div class="col-12 col-md-4 p-1 m-auto">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="text-center">ورود به سیستم</h3>
+                        <h4 class="text-center">سامانه ثبت سفارش غذا</h4>
+                        <h3 class="text-center">شرکت ریخته گری دقیق پارس</h3>
                         <form action="{{route('sign.in')}}" method="post">
                             @csrf
                             <div class="form-group">
@@ -17,13 +18,14 @@
                                 <label for="password">کلمه عبور (کد ملی)</label>
                                 <input class="form-control" type="password" name="password" id="password">
                             </div>
-                            <button class="btn btn-primary col-12">ورود</button>
+                            <p class="text-center">
+                                <button class="btn btn-primary col-2 m-auto">ورود</button>
+                            </p>
                         </form>
+
+                        <img src="{{asset('assets/images/logo.png')}}" class="w-100">
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-8">
-
             </div>
         </div>
     </div>

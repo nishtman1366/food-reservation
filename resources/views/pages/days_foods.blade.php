@@ -5,14 +5,16 @@
     <div class="row">
         @if(!is_null($dayFoods) && count($dayFoods) > 0)
             @foreach($dayFoods as $dayFood)
-                <div id="menu-row-{{str_replace('/','-',$dayFood['date'])}}" class="col-12 col-md-6">
+                <div id="menu-row-{{str_replace('/','-',$dayFood['jDate'])}}" class="col-12">
                     <div class="row border rounded m-1" style="height: 100px">
                         <div class="col-5 text-center d-flex flex-column">
-                            <div class="p-2">{{$dayFood['date']}}<br>{{$dayFood['weekday']}}</div>
+                            <div class="p-2 persian-numbers">{{$dayFood['jDate']}}<br>{{$dayFood['weekday']}}</div>
                             <div class="p-2">
-                                <i data-date="{{$dayFood['date']}}" class="fa fa-pencil text-primary edit-menu"
-                                   style="cursor: pointer" data-ids="{{$dayFood['ids']}}"></i>
-                                <i data-date="{{$dayFood['date']}}" class="fa fa-trash text-danger delete-menu"
+                                <i
+                                    data-jDate="{{$dayFood['jDate']}}"
+                                    data-gDate="{{$dayFood['gDate']}}" class="fa fa-pencil text-primary edit-menu"
+                                    style="cursor: pointer" data-ids="{{$dayFood['ids']}}"></i>
+                                <i data-date="{{$dayFood['jDate']}}" class="fa fa-trash text-danger delete-menu"
                                    style="cursor: pointer"></i>
                             </div>
                         </div>
@@ -42,13 +44,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="date">انتخاب تاریخ</label>
-                        <input type="text" class="form-control" name="date" id="date">
+                        <label for="jDate">انتخاب تاریخ</label>
+                        <input type="text" class="form-control" name="jDate" id="jDate" readonly>
+                        <input type="hidden" name="gDate" id="gDate" value="">
                     </div>
                     <div class="form-group">
                         <ul class="m-1" style="list-style-type: none" id="selected-foods-list"></ul>
                         <button class="btn btn-info" id="list-foods"><i class="fa fa-plus"></i></button>
-                    </div>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
@@ -72,10 +75,9 @@
                     @if(!is_null($foods) && count($foods) > 0)
                         <div class="row">
                             @foreach($foods as $food)
-                                <div class="col-4 m-auto">
+                                <div class="col-2 m-auto">
                                     <div class="border rounded m-1">
                                         <img src="{{url('storage/foods').'/'.$food->image}}" class="w-100">
-                                        <p class="text-center">{{$food->name}}</p>
                                         <div class="btn-group-toggle" data-toggle="buttons">
                                             <label class="btn btn-outline-secondary d-block m-auto">
                                                 <input type="checkbox" name="food-{{$food->id}}" class="foods"
@@ -102,17 +104,23 @@
 @push('js')
     <script>
         $(document).ready(function () {
+            $('#jDate').MdPersianDateTimePicker({
+                disableBeforeToday: true,
+                targetTextSelector: '#jDate',
+                targetDateSelector: '#gDate'
+            });
+
             var foodsList = [];
             $("#new-menu-btn").click(function () {
                 $("#new-menu-Modal").modal('toggle');
                 $("#edit-menu").addClass('d-none');
                 $("#new-menu").removeClass('d-none');
                 $("#new-menu").click(function () {
-                    let date = $('#date').val();
-                    Axios.post('days-foods', {date: date, foodsList: foodsList})
+                    let jDate = $('#jDate').val();
+                    let gDate = $('#gDate').val();
+                    Axios.post('days-foods', {gDate: gDate, foodsList: foodsList})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
-                            console.log(response.data);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
@@ -130,10 +138,11 @@
                 $("#new-menu-Modal").modal('toggle');
                 $("#new-menu").addClass('d-none');
                 $("#edit-menu").removeClass('d-none');
-                let date = $(this).attr('data-date');
-                $('#date').val(date);
+                let jDate = $(this).attr('data-jDate');
+                let gDate = $(this).attr('data-gDate');
+                $('#jDate').val(jDate);
+                $('#gDate').val(gDate);
                 let registeredFoodList = $(this).attr('data-ids');
-                console.log(registeredFoodList);
                 $(".foods").each(function () {
                     if (registeredFoodList.indexOf($(this).attr('data-food-id')) !== -1) {
                         let name = $(this)
@@ -147,7 +156,7 @@
                     }
                 });
                 $('#edit-menu').click(function () {
-                    Axios.put('days-foods', {date: date, foodsList: foodsList})
+                    Axios.put('days-foods', {gDate: gDate, foodsList: foodsList})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             console.log(response.data);

@@ -22,7 +22,7 @@
                                             $flag=1;
                                         }
                                     @endphp
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <img id="image-{{$item->id}}"
                                              data-food-id="{{$item->id}}"
                                              data-date="{{$dayFood['date']}}"
@@ -32,7 +32,7 @@
                                              title="{{$item->food->name}}<br>{{$item->food->description}}">
                                     </div>
                                 @endforeach
-                                <div class="col-3">
+                                <div class="col-2">
                                     <img data-food-id="-1" data-date="{{$dayFood['date']}}" class="m-1 food-item w-100 border rounded {{$flag==0 ? 'border-danger' : ''}}"
                                          src="{{asset('assets/images/im_fat.jpg')}}">
                                 </div>

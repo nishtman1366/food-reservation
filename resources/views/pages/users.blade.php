@@ -1,6 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('dashboard_content')
+    <button class="btn btn-info m-1" id="new-user-btn">ثبت کاربر جدید</button>
     <table class="table table-hover">
         <tr>
             <th scope="col">ردیف</th>
@@ -31,24 +32,130 @@
             <td colspan="6">{{$users->links()}}</td>
         </tr>
     </table>
+    <div class="modal fade" id="new-user-Modal" tabindex="-1" role="dialog" aria-labelledby="new-user-ModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="new-user-ModalLabel">ثبت اطلاعات کاربر</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="first_name">نام</label>
+                        <input type="text" name="first_name" id="first_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">نام خانوادگی</label>
+                        <input type="text" name="last_name" id="last_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="national_code">شماره ملی</label>
+                        <input type="text" name="national_code" id="national_code" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="personal_code">شماره پرسنلی</label>
+                        <input type="text" name="personal_code" id="personal_code" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                    <button type="button" class="btn btn-primary d-none" id="new-user">ذخیره اطلاعات</button>
+                    <button type="button" class="btn btn-primary d-none" id="edit-user">بروزرسانی اطلاعات</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('js')
     <script>
         $(document).ready(function () {
-            let Axios = axios.create({
-                baseURL: 'http://127.0.0.1:8000/api/',
-                timeout: 1000,
+            $("#new-user-btn").click(function () {
+                $("#new-user-Modal").modal('toggle');
+                $("#edit-user").addClass('d-none');
+                $("#new-user").removeClass('d-none');
+                $('#new-user').click(function () {
+                    let first_name = $('#first_name').val();
+                    let last_name = $('#last_name').val();
+                    let national_code = $('#national_code').val();
+                    let personal_code = $('#personal_code').val();
+                    Axios.post('users', {first_name, last_name, national_code, personal_code})
+                        .then(function (response) {
+                            toastr.success('با موفقیت انجام شد.');
+                        })
+                        .catch(function (error) {
+                            toastr.error('به علت اشکال داخلی انجام نشد.');
+                        })
+                        .finally(function () {
+                            $("#new-user-Modal").modal('toggle');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        });
+                });
             });
+
             $('.edit-user').click(function () {
                 let id = $(this).attr('data-user-id');
-                console.log('trying to edit user:' + id);
-                Axios.get('user')
+                Axios.get('users/' + id)
                     .then(function (response) {
-                        console.log('response', response);
+                        $("#first_name").val(response.data.first_name);
+                        $("#last_name").val(response.data.last_name);
+                        $("#national_code").val(response.data.national_code);
+                        $("#personal_code").val(response.data.personal_code);
                     })
                     .catch(function (error) {
-                        console.error(error);
+                        toastr.error('به علت اشکال داخلی انجام نشد.');
                     })
+                    .finally(function () {
+
+                    });
+                $("#new-user-Modal").modal('toggle');
+                $("#new-user").addClass('d-none');
+                $("#edit-user").removeClass('d-none');
+                $('#edit-user').click(function () {
+                    let first_name = $('#first_name').val();
+                    let last_name = $('#last_name').val();
+                    let national_code = $('#national_code').val();
+                    let personal_code = $('#personal_code').val();
+                    Axios.put('users/' + id, {first_name, last_name, national_code, personal_code})
+                        .then(function (response) {
+                            toastr.success('با موفقیت انجام شد.');
+                        })
+                        .catch(function (error) {
+                            toastr.error('به علت اشکال داخلی انجام نشد.');
+                        })
+                        .finally(function () {
+                            $("#new-user-Modal").modal('toggle');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        });
+                });
+            });
+
+            $('.delete-user').click(function () {
+                let id = $(this).attr('data-user-id');
+                toastr.warning('آیا از حذف این مورد مطمئن هستید؟' +
+                    '<br>' +
+                    '<button id="confirm-delete" class="btn btn-danger m-1">بله</button>' +
+                    '<button class="btn btn-secondary clear m-1">خیر</button>');
+                $("#confirm-delete").click(function () {
+                    Axios.delete('users/' + id)
+                        .then(function (response) {
+                            toastr.success('با موفقیت انجام شد.');
+                        })
+                        .catch(function (error) {
+                            toastr.error('به علت اشکال داخلی انجام نشد.');
+                        })
+                        .finally(function () {
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        });
+                });
             });
         });
     </script>
