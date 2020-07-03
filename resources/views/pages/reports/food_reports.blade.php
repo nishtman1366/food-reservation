@@ -1,4 +1,4 @@
-@extends('pages.reports.list')
+@extends('pages.reports.list',['active'=>1])
 
 @section('reports_content')
     <form action="{{route('reports.view',['name'=>'Food-orders'])}}" method="post">
@@ -13,7 +13,7 @@
                            class="form-control border-right-0 border-left-0" readonly
                            style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
                            value="{{isset($jDate) && !is_null($jDate) ? $jDate : ''}}">
-                    <button class="btn btn-primary">جستجو</button>
+                    <button class="btn btn-primary border-right-0" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو</button>
                 </div>
             </div>
         </div>
