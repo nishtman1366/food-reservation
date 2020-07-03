@@ -20,6 +20,7 @@
                             </div>
                             <p class="text-center">
                                 <button class="btn btn-primary col-2 m-auto">ورود</button>
+                                <button class="btn btn-primary col-6 m-auto">دریافت کد پرسنلی</button>
                             </p>
                         </form>
 
