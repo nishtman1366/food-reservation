@@ -52,4 +52,11 @@ class UserController extends Controller
         User::destroy($id);
         return response()->json([]);
     }
+
+    public function getPersonalCode(Request $request)
+    {
+        $name = $request->get('name');
+        $users = User::where('first_name', 'LIKE', '%' . $name . '%')->get();
+        return response()->json($users);
+    }
 }

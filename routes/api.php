@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::pattern('id', '[0-9]+');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -32,4 +32,6 @@ Route::middleware('auth:api')->group(function () {
     Route::put('users/{id}', 'UserController@update');
     Route::delete('users/{id}', 'UserController@delete');
 });
+Route::post('users/personal-code', 'UserController@getPersonalCode');
+
 

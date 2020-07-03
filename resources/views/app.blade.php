@@ -7,7 +7,7 @@
     @auth
         <meta name="api-token" content="{{\Illuminate\Support\Facades\Auth::user()->api_token}}">
     @endauth
-    <title>ریخته گری دقیق پارس</title>
+    <title>سامانه سفارش غذا</title>
     <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/PersianDatePicker/jquery.md.bootstrap.datetimepicker.style.css')}}">
     @stack('css')

@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <ul class="m-1" style="list-style-type: none" id="selected-foods-list"></ul>
                         <button class="btn btn-info" id="list-foods"><i class="fa fa-plus"></i></button>
-                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
@@ -190,9 +190,9 @@
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-                            // setTimeout(function () {
-                            //     window.location.reload();
-                            // }, 1000);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         });
                 });
             });
