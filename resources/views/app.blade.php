@@ -9,6 +9,7 @@
     @endauth
     <title>ریخته گری دقیق پارس</title>
     <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/PersianDatePicker/jquery.md.bootstrap.datetimepicker.style.css')}}">
     @stack('css')
 </head>
 <body>
@@ -74,8 +75,8 @@
                             </div>
                             <div>
                                 <a class="dropdown-item text-right font-size-small"
-                                   href="yahoo.com">
-                                    سفارشات
+                                   href="{{route('reports.list')}}">
+                                    گزارشات
                                 </a>
                             </div>
                         </div>
@@ -95,6 +96,7 @@
 </div>
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('assets/vendor/PersianNumber/persianumber.min.js')}}"></script>
+<script src="{{asset('assets/vendor/PersianDatePicker/jquery.md.bootstrap.datetimepicker.js')}}"></script>
 @stack('js')
 </body>
 </html>

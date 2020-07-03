@@ -24,7 +24,7 @@
                 </a>
             </div>
             <div class="col-12 col-md-3 m-auto">
-                <a href="{{route('users.list')}}">
+                <a href="{{route('reports.list')}}">
                     <div class="btn btn-success m-1 col-12" style="height: 120px">
                         <i class="fa fa-bar-chart" style="font-size: 4em"></i>
                         <p class="text-center" style="font-size: 1.4em">

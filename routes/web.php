@@ -37,6 +37,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
 
     Route::prefix('reports')->group(function () {
         Route::get('/', 'ReportController@index')->name('reports.list');
+        Route::match(['get', 'post'], '/{name}', 'ReportController@view')->name('reports.view');
     });
 
     Route::post('/logout', 'DashboardController@logout')->name('logout');
