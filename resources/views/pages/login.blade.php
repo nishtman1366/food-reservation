@@ -37,14 +37,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="personal-code-ModalLabel">ثبت اطلاعات غذا</h5>
+                    <h5 class="modal-title" id="personal-code-ModalLabel">دریافت کد پرسنلی</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">نام خود را وارد نمایید</label>
+                        <label for="name">نام خانوادگی خود را وارد نمایید</label>
                         <input type="text" name="name" id="name" class="form-control">
                     </div>
                     <ul id="users-list" style="list-style-type: none"></ul>

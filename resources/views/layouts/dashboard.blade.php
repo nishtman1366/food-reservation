@@ -121,12 +121,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="text-right" id="message-container"></div>
                     <div class="form-group">
-                        <label for="name">نام غذا</label>
+                        <label for="old-password">کلمه عبور کنونی</label>
                         <input type="password" name="oldPassword" id="old-password" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="name">نام غذا</label>
+                        <label for="new-password">کلمه عبور جدید</label>
                         <input type="password" name="newPassword" id="new-password" class="form-control">
                     </div>
 
@@ -147,22 +148,15 @@
                 $('#change-password').click(function () {
                     let oldPassword = $('#old-password').val();
                     let newPassword = $('#new-password').val();
-                    Axios.post('users/personal-code', {name})
+                    Axios.post('users/change-password', {oldPassword, newPassword})
                         .then(function (response) {
+                            $("#message-container").removeClass('alert alert-danger').addClass('alert alert-success').html('کلمه عبور با موفقیت تغییر یافت');
                             toastr.success('با موفقیت انجام شد.');
-                            $("#users-list").children().remove();
-                            let users = response.data;
-                            if (users.length > 0) {
-                                for (let i = 0; i < users.length; i++) {
-                                    $("#users-list").append('<li class="text-right">' + users[i].name + '-' + users[i].personal_code + '</li>');
-                                }
-                            } else {
-                                $("#users-list").append('<li class="text-center"><h4 class="text-info">موردی یافت نشد</h4></li>');
-                            }
                         })
                         .catch(function (error) {
+                            console.log(error.response);
+                            $("#message-container").addClass('alert alert-danger').html(error.response.data.message);
                             toastr.error('به علت اشکال داخلی انجام نشد.');
-                            console.log(error);
                         })
                         .finally(function () {
 

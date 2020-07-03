@@ -74,9 +74,9 @@
                             console.error(error);
                         })
                         .finally(function () {
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            // setTimeout(function () {
+                            //     window.location.reload();
+                            // }, 1000);
                         })
                 });
             });

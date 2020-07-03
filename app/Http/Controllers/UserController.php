@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -56,7 +58,20 @@ class UserController extends Controller
     public function getPersonalCode(Request $request)
     {
         $name = $request->get('name');
-        $users = User::where('first_name', 'LIKE', '%' . $name . '%')->get();
+        $users = User::where('last_name', 'LIKE', '%' . $name . '%')->get();
         return response()->json($users);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = Auth::user();
+        $oldPassword = $request->get('oldPassword');
+        $newPassword = $request->get('newPassword');
+        if (Hash::check($oldPassword, $user->password)) {
+            $user->update(['password' => $newPassword]);
+        } else {
+            return response()->json(['message' => 'کلمه عبور کنونی اشتباه است'], 422);
+        }
+        return response()->json();
     }
 }

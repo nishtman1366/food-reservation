@@ -37,8 +37,9 @@ class OrderController extends Controller
         $order = Order::where('user_id', Auth::user()->id)->whereHas('daysFood', function ($query) use ($date) {
             $query->where('date', $date);
         })->get()->first();
+
         if ($foodId == -1) {
-            $order->delete();
+            if (!is_null($order)) $order->delete();
         } else {
             if (is_null($order)) {
                 Order::create([

@@ -13,7 +13,7 @@
     @stack('css')
 </head>
 <body>
-<div id="main">
+<div id="main" style="background-image: url('{{asset('assets/images/dashboard-bg.jpg')}}');background-size: cover">
     @yield('content')
 </div>
 <script src="{{asset('js/app.js')}}"></script>

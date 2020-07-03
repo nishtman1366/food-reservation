@@ -163,15 +163,21 @@ label {
     height: 100%;
 }
 
-.text-small{
+.text-small {
     font-size: $font-size-small;
 }
 
-.food-item{
+.food-item {
     cursor: pointer;
 }
 
-.tooltip-inner{
+.tooltip-inner {
     font-family: IRANSans;
 }
 
+.food-image-active {
+    border-width: 5px;
+}
+.food-days-list:even{
+
+}

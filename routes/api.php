@@ -28,6 +28,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('reservations', 'OrderController@create');
 
     Route::post('users', 'UserController@create');
+    Route::post('users/change-password', 'UserController@changePassword');
     Route::get('users/{id}', 'UserController@view');
     Route::put('users/{id}', 'UserController@update');
     Route::delete('users/{id}', 'UserController@delete');
