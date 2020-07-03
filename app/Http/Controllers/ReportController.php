@@ -82,7 +82,7 @@ class ReportController extends Controller
                     }
                     $fileName = 'User-Orders.' . str_replace('/', '', $gDate) . '.xlsx';
                     $downloadLink = url('storage/reports') . '/' . $fileName;
-                    $headers = ['ردیف', 'نام غذا', 'تعداد سفارش'];
+                    $headers = ['ردیف', 'نام کارمند', 'نام غذا'];
                     Excel::store(new FoodReservationExport(collect($data), $headers), 'reports/' . $fileName, 'public');
                 }
 

@@ -5,7 +5,7 @@
         @if(!is_null($dayFoods) && count($dayFoods) > 0)
             @foreach($dayFoods as $dayFood)
                 <div class="col-12">
-                    <div class="row border rounded m-1">
+                    <div class="row border rounded m-1 food-days-list">
                         <div class="col-2 text-center d-flex flex-column align-items-center persian-numbers">
                             <h4>{{$dayFood['dateArray']['weekday']}}</h4>
                             <h3>{{$dayFood['dateArray']['dayText']}}</h3>
@@ -26,16 +26,24 @@
                                         <img id="image-{{$item->id}}"
                                              data-food-id="{{$item->id}}"
                                              data-date="{{$dayFood['date']}}"
-                                             class="m-1 food-item w-100 border rounded {{is_null($orders->where('days_food_id',$item->id)->first()) ? '' : 'border-danger'}}"
+                                             class="m-1 food-item w-100 border rounded"
                                              src="{{url('storage/foods').'/'.$item->food->image}}"
                                              data-toggle="tooltip" data-html="true"
                                              title="{{$item->food->name}}<br>{{$item->food->description}}">
+                                        @if(!is_null($orders->where('days_food_id',$item->id)->first()))
+                                            <i class="fa fa-check text-success"></i>
+                                        @endif
                                     </div>
                                 @endforeach
                                 <div class="col-2">
-                                    <img data-food-id="-1" data-date="{{$dayFood['date']}}" class="m-1 food-item w-100 border rounded {{$flag==0 ? 'border-danger' : ''}}"
+                                    <img data-food-id="-1" data-date="{{$dayFood['date']}}"
+                                         class="m-1 food-item w-100 border rounded"
                                          src="{{asset('assets/images/im_fat.jpg')}}">
+                                    @if($flag==0)
+                                        <i class="fa fa-check text-success"></i>
+                                    @endif
                                 </div>
+
                             </div>
                         </div>
                     </div>

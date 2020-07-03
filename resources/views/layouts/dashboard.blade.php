@@ -80,11 +80,19 @@
             <div class="col-12 col-md-3 p-1">
                 <div class="card">
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 m-auto">
+                                <img src="{{asset('assets/images/avatar.png')}}" class="w-100">
+                            </div>
+                        </div>
                         <h3 class="text-center">{{Auth::user()->name}} خوش آمدید</h3>
                         <div class="row text-right">
                             <div class="col-12 m-1">شماره پرسنلی: {{Auth::user()->personal_code}}</div>
                             <div class="col-12 m-1">شماره ملی: {{Auth::user()->national_code}}</div>
                         </div>
+                        <div class="dropdown-divider"></div>
+                        <button class="btn btn-info" id="change-password-btn">تغییر کلمه عبور</button>
+                        <div class="dropdown-divider"></div>
                         <form action="{{route('logout')}}" method="post">
                             @csrf
                             <button class="btn btn-primary col-12">خروج از سیستم</button>
@@ -101,4 +109,66 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="change-password-Modal" tabindex="-1" role="dialog"
+         aria-labelledby="change-password-ModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="change-password-ModalLabel">تغییر کلمه عبور</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">نام غذا</label>
+                        <input type="password" name="oldPassword" id="old-password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">نام غذا</label>
+                        <input type="password" name="newPassword" id="new-password" class="form-control">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                    <button type="button" class="btn btn-primary" id="change-password">ذخیره اطلاعات</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function () {
+            $("#change-password-btn").click(function () {
+                $("#change-password-Modal").modal('toggle');
+                $('#change-password').click(function () {
+                    let oldPassword = $('#old-password').val();
+                    let newPassword = $('#new-password').val();
+                    Axios.post('users/personal-code', {name})
+                        .then(function (response) {
+                            toastr.success('با موفقیت انجام شد.');
+                            $("#users-list").children().remove();
+                            let users = response.data;
+                            if (users.length > 0) {
+                                for (let i = 0; i < users.length; i++) {
+                                    $("#users-list").append('<li class="text-right">' + users[i].name + '-' + users[i].personal_code + '</li>');
+                                }
+                            } else {
+                                $("#users-list").append('<li class="text-center"><h4 class="text-info">موردی یافت نشد</h4></li>');
+                            }
+                        })
+                        .catch(function (error) {
+                            toastr.error('به علت اشکال داخلی انجام نشد.');
+                            console.log(error);
+                        })
+                        .finally(function () {
+
+                        });
+                });
+            });
+        });
+    </script>
+@endpush
