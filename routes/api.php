@@ -32,6 +32,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('users/{id}', 'UserController@view');
     Route::put('users/{id}', 'UserController@update');
     Route::delete('users/{id}', 'UserController@delete');
+
+    Route::post('admin/popups', 'PopupController@create');
+    Route::get('admin/popups/{id}', 'PopupController@view');
+    Route::put('admin/popups/{id}', 'PopupController@update');
+    Route::delete('admin/popups/{id}', 'PopupController@delete');
+
 });
 Route::post('users/personal-code', 'UserController@getPersonalCode');
 

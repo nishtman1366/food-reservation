@@ -40,5 +40,11 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::match(['get', 'post'], '/{name}', 'ReportController@view')->name('reports.view');
     });
 
+    Route::prefix('admin')->group(function () {
+        Route::prefix('popups')->group(function () {
+            Route::get('/', 'PopupController@index')->name('popups.list');
+        });
+    });
+
     Route::post('/logout', 'DashboardController@logout')->name('logout');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\PopupController;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\View;
@@ -12,8 +13,8 @@ class ShareDataToViews
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -28,7 +29,16 @@ class ShareDataToViews
             ]
         ];
         $route = $request->route()->getName();
+//        $popups = [];
+//        $popupVisited = false;
+//
+//
+//        if (!$popupVisited) {
+        $popups = PopupController::getPopupList();
+//
+//        }
         View::share('data', $data);
+        View::share('popups', $popups);
 
         return $next($request);
     }

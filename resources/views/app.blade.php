@@ -14,13 +14,18 @@
     @stack('css')
 </head>
 <body>
-{{--@include('components.loading')--}}
+@include('components.popup')
 <div id="main" style="background-image: url('{{asset('assets/images/dashboard-bg.jpg')}}');background-size: cover">
     @yield('content')
 </div>
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('assets/vendor/PersianNumber/persianumber.min.js')}}"></script>
 <script src="{{asset('assets/vendor/PersianDatePicker/jquery.md.bootstrap.datetimepicker.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $("#popup-Modal").modal('toggle');
+    });
+</script>
 @stack('js')
 </body>
 </html>
