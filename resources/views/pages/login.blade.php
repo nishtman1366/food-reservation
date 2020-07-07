@@ -27,7 +27,8 @@
                         </form>
                         <img src="{{asset('assets/images/logo.png')}}" class="w-100" alt="شرکت ریخته گری دقیق پارس">
                         <h6 class="text-center text-light border border-dark rounded bg-danger">
-                            تهیه شده در واحد فناوری اطلاعات و ارتباطات
+                            تهیه شده در واحد فناوری اطلاعات و ارتباطات<br>
+                            به سفارش واحد منابع انسانی
                         </h6>
                     </div>
                 </div>
