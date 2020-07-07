@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+    @include('components.popup')
     <div id="status-bar" class="row p-sm-1">
         <div class="col-sm-12 col-md-9">
             {{-- Calendar --}}
@@ -68,6 +69,11 @@
                         <li class="nav-item font-size-normal dropdown">
                             <a class="nav-link app-bar-menu-item" href="{{route('users.list')}}" role="button">
                                 مدیریت کاربران
+                            </a>
+                        </li>
+                        <li class="nav-item font-size-normal dropdown">
+                            <a class="nav-link app-bar-menu-item" href="{{route('popups.list')}}" role="button">
+                               اطلاعیه ها
                             </a>
                         </li>
                     @endif

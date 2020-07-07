@@ -19,11 +19,13 @@
                                 <label for="password">کلمه عبور (کد ملی)</label>
                                 <input class="form-control" type="password" name="password" id="password">
                             </div>
-                            <p class="text-center">
-                                <button class="btn btn-primary col-2 m-auto">ورود</button>
-                                <a href="#" id="get-personal-code" class="btn btn-primary col-6 m-auto">دریافت کد
+                            <div class="form-inline">
+                                <label for="remember">مرا به خاطر بسپار</label>
+                                <input class="form-check-inline" type="checkbox" name="remember" value="true" id="remember">
+                                <button class="btn btn-primary m-auto">ورود</button>
+                                <a href="#" id="get-personal-code" class="btn btn-primary m-auto">دریافت کد
                                     پرسنلی</a>
-                            </p>
+                            </div>
                         </form>
                         <img src="{{asset('assets/images/logo.png')}}" class="w-100" alt="شرکت ریخته گری دقیق پارس">
                         <h6 class="text-center text-light border border-dark rounded bg-danger">
@@ -71,9 +73,9 @@
         $(document).ready(function () {
             $('#personal-code').bind('click', function () {
                 let name = $('#name').val();
-                if(name.length===0){
+                if (name.length === 0) {
                     toastr.error('لطفا قسمتی از نام خانوادگی خود را جهت جستجو وارد کنید.');
-                }else{
+                } else {
                     Axios.post('users/personal-code', {name})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');

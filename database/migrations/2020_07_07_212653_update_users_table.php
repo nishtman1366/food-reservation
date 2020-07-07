@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateDaysFoodsTable extends Migration
+class UpdateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateDaysFoodsTable extends Migration
      */
     public function up()
     {
-        Schema::table('days_foods', function (Blueprint $table) {
-            $table->unsignedTinyInteger('type')->default(1);
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('remember_token')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class UpdateDaysFoodsTable extends Migration
      */
     public function down()
     {
-        Schema::table('days_foods', function (Blueprint $table) {
-            $table->dropColumn('type');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('remember_token');
         });
     }
 }

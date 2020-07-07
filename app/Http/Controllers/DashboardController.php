@@ -19,7 +19,8 @@ class DashboardController extends Controller
 
     public function signIn(Request $request)
     {
-        if (Auth::attempt($request->only(['username', 'password']))) {
+        $remember = $request->get('remember', false);
+        if (Auth::attempt($request->only(['username', 'password']), $remember)) {
             return redirect()->route('dashboard');
         } else {
             return redirect()->route('home');
