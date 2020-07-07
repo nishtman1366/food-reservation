@@ -14,7 +14,6 @@
     @stack('css')
 </head>
 <body>
-@include('components.popup')
 <div id="main" style="background-image: url('{{asset('assets/images/dashboard-bg.jpg')}}');background-size: cover">
     @yield('content')
 </div>
