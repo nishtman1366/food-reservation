@@ -81,18 +81,23 @@
                     let last_name = $('#last_name').val();
                     let national_code = $('#national_code').val();
                     let personal_code = $('#personal_code').val();
+                    $(this).prop('disabled', true);
+                    $(this).text('درحال ارسال اطلاعات...');
                     Axios.post('users', {first_name, last_name, national_code, personal_code})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
-                        })
-                        .catch(function (error) {
-                            toastr.error('به علت اشکال داخلی انجام نشد.');
-                        })
-                        .finally(function () {
                             $("#new-user-Modal").modal('toggle');
                             setTimeout(function () {
                                 window.location.reload();
                             }, 1000);
+                        })
+                        .catch(function (error) {
+                            $(this).prop('disabled', flase);
+                            $(this).text('ذخیره اطلاعات');
+                            toastr.error('به علت اشکال داخلی انجام نشد.');
+                        })
+                        .finally(function () {
+
                         });
                 });
             });

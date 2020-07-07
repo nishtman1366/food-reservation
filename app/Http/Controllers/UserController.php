@@ -20,6 +20,7 @@ class UserController extends Controller
         $request->merge([
             'username' => $request->get('personal_code'),
             'password' => $request->get('national_code'),
+            'api_token' => 'x',
             'level' => 2
         ]);
         User::create($request->all());
