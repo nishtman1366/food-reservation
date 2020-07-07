@@ -9,10 +9,12 @@
     @endauth
     <title>سامانه سفارش غذا</title>
     <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/PersianDatePicker/jquery.md.bootstrap.datetimepicker.style.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('assets/vendor/PersianDatePicker/jquery.md.bootstrap.datetimepicker.style.css')}}">
     @stack('css')
 </head>
 <body>
+{{--@include('components.loading')--}}
 <div id="main" style="background-image: url('{{asset('assets/images/dashboard-bg.jpg')}}');background-size: cover">
     @yield('content')
 </div>

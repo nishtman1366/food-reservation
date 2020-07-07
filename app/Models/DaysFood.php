@@ -9,7 +9,7 @@ class DaysFood extends Model
 {
     protected $table = 'days_foods';
 
-    protected $fillable = ['date', 'food_id'];
+    protected $fillable = ['date', 'food_id', 'type'];
 
     protected $appends = ['jDate', 'dateArray', 'weekday'];
 

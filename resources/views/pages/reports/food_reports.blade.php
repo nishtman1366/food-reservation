@@ -5,7 +5,7 @@
         @csrf
         <input type="hidden" name="gDate" id="gDate" value="{{isset($gDate) && !is_null($gDate) ? $gDate : ''}}">
         <div class="row">
-            <div class="col-12 col-md-6 m-auto">
+            <div class="col-12 col-md-8 m-auto">
                 <div class="input-group">
                     <span class="input-group-text border-left-0"
                           style="border-top-left-radius: 0;border-bottom-left-radius: 0;">تاریخ:</span>
@@ -13,15 +13,20 @@
                            class="form-control border-right-0 border-left-0" readonly
                            style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
                            value="{{isset($jDate) && !is_null($jDate) ? $jDate : ''}}">
+                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;" >ناهار</span>
+                    <input style="background-color: #e9ecef" checked type="radio" name="type" value="1">
+                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;" >شام</span>
+                    <input type="radio" name="type" value="2" autocomplete="off">
                     <button class="btn btn-primary border-right-0"
                             style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو
                     </button>
                 </div>
 
             </div>
-            <div class="col-6 pull-left">
+            <div class="col-4 pull-left">
                 @if(!is_null($downloadLink))
-                    <a href="{{$downloadLink}}" class="btn btn-outline-success" data-toggle="tooltip" title="دریافت فایل اکسل">
+                    <a href="{{$downloadLink}}" class="btn btn-outline-success" data-toggle="tooltip"
+                       title="دریافت فایل اکسل">
                         <i class="fa fa-file-excel-o"></i>
                     </a>
                 @endif

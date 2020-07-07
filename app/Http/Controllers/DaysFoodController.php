@@ -12,21 +12,29 @@ class DaysFoodController extends Controller
 {
     public function index(Request $request)
     {
-        $today = Carbon::today();
+        $today = Carbon::today()->addDay();
         $days = DaysFood::where('date', '>=', $today)->groupBy('date')->get(['date']);
         $list = [];
         foreach ($days as $day) {
-            $dayFoods = DaysFood::with('food')->where('date', $day->date)->get();
-            $ids = [];
-            foreach ($dayFoods as $food) {
-                $ids[] = (string)$food->food_id;
+            $dayFoodsLunch = DaysFood::with('food')->where('date', $day->date)->where('type', 1)->get();
+            $dayFoodsDinner = DaysFood::with('food')->where('date', $day->date)->where('type', 2)->get();
+
+            $lunchIds = [];
+            foreach ($dayFoodsLunch as $lunches) {
+                $lunchIds[] = (string)$lunches->food_id;
+            }
+            $dinnerIds = [];
+            foreach ($dayFoodsDinner as $dinner) {
+                $dinnerIds[] = (string)$dinner->food_id;
             }
             $list[] = [
                 'jDate' => $day->jDate,
                 'gDate' => Carbon::create($day->date)->format('Y/m/d'),
                 'weekday' => $day->weekday,
-                'ids' => json_encode($ids),
-                'foods' => $dayFoods
+                'lunchIds' => json_encode($lunchIds),
+                'dinnerIds' => json_encode($dinnerIds),
+                'lunch' => $dayFoodsLunch,
+                'dinner' => $dayFoodsDinner,
             ];
         }
         $foods = Food::orderBy('name', 'ASC')->get();
@@ -36,10 +44,12 @@ class DaysFoodController extends Controller
     public function create(Request $request)
     {
         $gDate = $request->get('gDate');
+        $type = (int)$request->get('type');
         $date = \Carbon\Carbon::createFromFormat('Y/m/d', $gDate)->hour(0)->minute(0)->second(0);
         foreach ($request->get('foodsList') as $food) {
             DaysFood::create([
                 'date' => $date,
+                'type' => $type,
                 'food_id' => $food['id']
             ]);
         }
@@ -49,14 +59,17 @@ class DaysFoodController extends Controller
     public function update(Request $request)
     {
         $gDate = $request->get('gDate');
-        $date = \Carbon\Carbon::createFromFormat('Y/m/d', $gDate)->hour(0)->minute(0)->second(0);
-        $foods = DaysFood::where('date', $date)->get();
+        $date = \Carbon\Carbon::createFromFormat('Y/m/d', $gDate)
+            ->hour(0)
+            ->minute(0)
+            ->second(0);
+        $type = $request->get('type');
+        $foods = DaysFood::where('date', $date)->where('type', $type)->get();
         $newMenu = $request->get('foodsList');
         $idsList = [];
         foreach ($newMenu as $item) {
             $idsList[] = $item['id'];
         }
-        $deleteList = [];
         foreach ($foods as $food) {
             $stay = array_search($food->food_id, $idsList);
             if ($stay === false) $food->delete();
@@ -64,6 +77,7 @@ class DaysFoodController extends Controller
         foreach ($newMenu as $food) {
             DaysFood::firstOrCreate([
                 'date' => $date,
+                'type' => $type,
                 'food_id' => $food['id']
             ]);
         }

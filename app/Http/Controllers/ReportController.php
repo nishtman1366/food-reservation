@@ -24,6 +24,7 @@ class ReportController extends Controller
             case 'Food-Orders':
                 $gDate = $request->get('gDate');
                 $jDate = $request->get('jDate');
+                $type = (int)$request->get('type');
                 $data = [];
                 $downloadLink = null;
                 if (!is_null($gDate)) {
@@ -31,8 +32,8 @@ class ReportController extends Controller
                     $foods = Food::orderBy('name', 'ASC')->get();
                     $i = 1;
                     foreach ($foods as $food) {
-                        $ordersCount = Order::whereHas('daysFood', function ($query) use ($date, $food) {
-                            $query->where('date', $date)->whereHas('food', function ($q) use ($food) {
+                        $ordersCount = Order::whereHas('daysFood', function ($query) use ($date, $type, $food) {
+                            $query->where('date', $date)->where('type', $type)->whereHas('food', function ($q) use ($food) {
                                 $q->where('id', $food->id);
                             });
                         })->count();
@@ -61,6 +62,7 @@ class ReportController extends Controller
             case 'User-Orders':
                 $gDate = $request->get('gDate');
                 $jDate = $request->get('jDate');
+                $type = $request->get('type');
                 $data = [];
                 $downloadLink = null;
                 if (!is_null($gDate)) {
@@ -68,9 +70,11 @@ class ReportController extends Controller
                     $users = User::where('level', 2)->orderBy('id', 'ASC')->get();
                     $i = 1;
                     foreach ($users as $user) {
-                        $order = Order::with('daysFood.food')->where('user_id', $user->id)->whereHas('daysFood', function ($query) use ($date, $user) {
-                            $query->where('date', $date);
-                        })->get()->first();
+                        $order = Order::with('daysFood.food')
+                            ->where('user_id', $user->id)
+                            ->whereHas('daysFood', function ($query) use ($date, $user, $type) {
+                                $query->where('date', $date)->where('type', $type);
+                            })->get()->first();
                         if (!is_null($order)) {
                             $data[] = [
                                 '#' => $i,

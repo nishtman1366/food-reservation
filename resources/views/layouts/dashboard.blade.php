@@ -81,22 +81,29 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-6 m-auto">
-                                <img src="{{asset('assets/images/avatar.png')}}" class="w-100">
+                            <div class="col-6 m-auto text-center">
+                                <img src="{{asset('assets/images/avatar.png')}}" class="w-75">
                             </div>
                         </div>
-                        <h3 class="text-center">{{Auth::user()->name}} خوش آمدید</h3>
+                        <h5 class="text-center">{{Auth::user()->name}} خوش آمدید</h5>
                         <div class="row text-right">
                             <div class="col-12 m-1">شماره پرسنلی: {{Auth::user()->personal_code}}</div>
                             <div class="col-12 m-1">شماره ملی: {{Auth::user()->national_code}}</div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <button class="btn btn-info" id="change-password-btn">تغییر کلمه عبور</button>
-                        <div class="dropdown-divider"></div>
-                        <form action="{{route('logout')}}" method="post">
-                            @csrf
-                            <button class="btn btn-primary col-12">خروج از سیستم</button>
-                        </form>
+                        <div class="row">
+                            <div class="col-6"><button class="btn btn-info" id="change-password-btn">تغییر کلمه عبور</button></div>
+                            <div class="col-6">
+                                <form action="{{route('logout')}}" method="post">
+                                    @csrf
+                                    <button class="btn btn-primary col-12">خروج از سیستم</button>
+                                </form>
+                            </div>
+                        </div>
+                        <img src="{{asset('assets/images/logo.png')}}" class="w-100" alt="شرکت ریخته گری دقیق پارس">
+                        <h6 class="text-center text-light border border-dark rounded bg-danger">
+                            تهیه شده در واحد فناوری اطلاعات و ارتباطات
+                        </h6>
                     </div>
                 </div>
             </div>

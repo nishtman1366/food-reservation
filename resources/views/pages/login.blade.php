@@ -25,7 +25,10 @@
                                     پرسنلی</a>
                             </p>
                         </form>
-                        <img src="{{asset('assets/images/logo.png')}}" class="w-100">
+                        <img src="{{asset('assets/images/logo.png')}}" class="w-100" alt="شرکت ریخته گری دقیق پارس">
+                        <h6 class="text-center text-light border border-dark rounded bg-danger">
+                            تهیه شده در واحد فناوری اطلاعات و ارتباطات
+                        </h6>
                     </div>
                 </div>
             </div>
@@ -47,7 +50,12 @@
                         <label for="name">نام خانوادگی خود را وارد نمایید</label>
                         <input type="text" name="name" id="name" class="form-control">
                     </div>
-                    <ul id="users-list" style="list-style-type: none"></ul>
+                    <div class="row">
+                        <div class="col-6 text-center">نام</div>
+                        <div class="col-6 text-center">شماره پرسنلی</div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="row" id="users-list"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
@@ -60,21 +68,26 @@
 @push('js')
     <script>
         $(document).ready(function () {
-            $("#get-personal-code").click(function () {
-                $("#personal-code-Modal").modal('toggle');
-                $('#personal-code').click(function () {
-                    let name = $('#name').val();
+            $('#personal-code').bind('click', function () {
+                let name = $('#name').val();
+                if(name.length===0){
+                    toastr.error('لطفا قسمتی از نام خانوادگی خود را جهت جستجو وارد کنید.');
+                }else{
                     Axios.post('users/personal-code', {name})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
-                            $("#users-list").children().remove();
+                            let usersListContainer = $("#users-list");
+                            usersListContainer.children().remove();
                             let users = response.data;
                             if (users.length > 0) {
                                 for (let i = 0; i < users.length; i++) {
-                                    $("#users-list").append('<li class="text-right">' + users[i].name + '-' + users[i].personal_code + '</li>');
+                                    usersListContainer.append('<div class="col-6 text-center">' + users[i].name + '</div>' +
+                                        '<div class="col-6 text-center">' + users[i].personal_code + '</div>');
                                 }
-                            }else{
-                                $("#users-list").append('<li class="text-center"><h4 class="text-info">موردی یافت نشد</h4></li>');
+                            } else {
+                                usersListContainer.append('<div class="col-12">' +
+                                    '<h4 class="text-info text-center">موردی یافت نشد</h4>' +
+                                    '</div>');
                             }
                         })
                         .catch(function (error) {
@@ -84,7 +97,10 @@
                         .finally(function () {
 
                         });
-                });
+                }
+            });
+            $("#get-personal-code").click(function () {
+                $("#personal-code-Modal").modal('toggle');
             });
         });
     </script>

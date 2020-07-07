@@ -13,6 +13,10 @@
                            class="form-control border-right-0 border-left-0" readonly
                            style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
                            value="{{isset($jDate) && !is_null($jDate) ? $jDate : ''}}">
+                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;" >ناهار</span>
+                    <input style="background-color: #e9ecef" checked type="radio" name="type" value="1">
+                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;" >شام</span>
+                    <input type="radio" name="type" value="2" autocomplete="off">
                     <button class="btn btn-primary border-right-0" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو</button>
                 </div>
             </div>

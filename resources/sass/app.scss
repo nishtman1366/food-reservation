@@ -175,9 +175,10 @@ label {
     font-family: IRANSans;
 }
 
-.food-image-active {
-    border-width: 5px;
+.modal-header .close {
+    margin: -1rem auto -1rem -1rem;
 }
-.food-days-list:even{
 
+img.food-item.active {
+    border: 3px dashed red !important;
 }

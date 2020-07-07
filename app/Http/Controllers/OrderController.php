@@ -12,16 +12,18 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $today = Carbon::today();
-        if (date('H') > 9) $today->addDay();
+        $today = Carbon::today()->addDay();
+        if (date('H') > 16) $today->addDay();
         $days = DaysFood::where('date', '>=', $today)->groupBy('date')->get(['date']);
         $list = [];
         foreach ($days as $day) {
-            $dayFoods = DaysFood::with('food')->where('date', $day->date)->get();
+            $lunchFoods = DaysFood::with('food')->where('type', 1)->where('date', $day->date)->get();
+            $dinnerFoods = DaysFood::with('food')->where('type', 2)->where('date', $day->date)->get();
             $list[] = [
                 'date' => $day->date,
                 'dateArray' => $day->dateArray,
-                'foods' => $dayFoods
+                'lunchFoods' => $lunchFoods,
+                'dinnerFoods' => $dinnerFoods
             ];
         }
         $orders = Order::where('user_id', Auth::user()->id)->whereHas('daysFood', function ($query) use ($today) {
@@ -34,9 +36,11 @@ class OrderController extends Controller
     {
         $date = $request->get('date');
         $foodId = $request->get('foodId');
-        $order = Order::where('user_id', Auth::user()->id)->whereHas('daysFood', function ($query) use ($date) {
-            $query->where('date', $date);
-        })->get()->first();
+        $type = (int)$request->get('type');
+        $order = Order::where('user_id', Auth::user()->id)
+            ->whereHas('daysFood', function ($query) use ($date, $type) {
+                $query->where('date', $date)->where('type', $type);
+            })->get()->first();
 
         if ($foodId == -1) {
             if (!is_null($order)) $order->delete();

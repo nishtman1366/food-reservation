@@ -7,23 +7,48 @@
             @foreach($dayFoods as $dayFood)
                 <div id="menu-row-{{str_replace('/','-',$dayFood['jDate'])}}" class="col-12">
                     <div class="row border rounded m-1" style="height: 100px">
-                        <div class="col-5 text-center d-flex flex-column">
+                        <div class="col-4 text-center d-flex flex-column">
                             <div class="p-2 persian-numbers">{{$dayFood['jDate']}}<br>{{$dayFood['weekday']}}</div>
                             <div class="p-2">
-                                <i
-                                    data-jDate="{{$dayFood['jDate']}}"
-                                    data-gDate="{{$dayFood['gDate']}}" class="fa fa-pencil text-primary edit-menu"
-                                    style="cursor: pointer" data-ids="{{$dayFood['ids']}}"></i>
                                 <i data-date="{{$dayFood['jDate']}}" class="fa fa-trash text-danger delete-menu"
                                    style="cursor: pointer"></i>
                             </div>
                         </div>
-                        <div class="col-7 text-center d-flex flex-column">
-                            @foreach($dayFood['foods'] as $item)
-                                <div class="p-2 text-muted text-small text-nowrap">
-                                    <i class="fa fa-cutlery"></i> {{$item->food->name}}
+                        <div class="col-4 text-right">
+                            <h5 class="border-bottom text-center">ناهار</h5>
+                            <div class="row">
+                                @foreach($dayFood['lunch'] as $item)
+                                    <div class="col-6 text-muted text-small text-nowrap">
+                                        <i class="fa fa-cutlery"></i> {{$item->food->name}}
+                                    </div>
+                                @endforeach
+                                <div class="col-12 text-center">
+                                    <i
+                                        style="cursor: pointer"
+                                        data-jDate="{{$dayFood['jDate']}}"
+                                        data-gDate="{{$dayFood['gDate']}}" class="fa fa-pencil text-primary edit-menu"
+                                        data-type="1"
+                                        data-lunchIds="{{$dayFood['lunchIds']}}"></i>
                                 </div>
-                            @endforeach
+                            </div>
+                        </div>
+                        <div class="col-4 text-right">
+                            <h5 class="border-bottom text-center">شام</h5>
+                            <div class="row">
+                                @foreach($dayFood['dinner'] as $item)
+                                    <div class="col-6 text-muted text-small text-nowrap">
+                                        <i class="fa fa-cutlery"></i> {{$item->food->name}}
+                                    </div>
+                                @endforeach
+                                <div class="col-12 text-center">
+                                    <i
+                                        style="cursor: pointer"
+                                        data-jDate="{{$dayFood['jDate']}}"
+                                        data-gDate="{{$dayFood['gDate']}}" class="fa fa-pencil text-primary edit-menu"
+                                        data-type="2"
+                                        data-dinnerIds="{{$dayFood['dinnerIds']}}"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,15 +73,32 @@
                         <input type="text" class="form-control" name="jDate" id="jDate" readonly>
                         <input type="hidden" name="gDate" id="gDate" value="">
                     </div>
-                    <div class="form-group">
-                        <ul class="m-1" style="list-style-type: none" id="selected-foods-list"></ul>
+                    <div class="btn-group btn-group-toggle pull-right" data-toggle="buttons">
+                        <label class="btn btn-outline-info border-left-0"
+                               style="border-radius: 0 3px 3px 0;" id="lunch-label">
+                            <input type="radio" name="type" value="1" id="lunch-radio" class="type" autocomplete="off">
+                            ناهار
+                        </label>
+                        <label class="btn btn-outline-info"
+                               style="border-radius: 3px 0 0 3px;" id="dinner-label">
+                            <input type="radio" name="type" value="2" id="dinner-radio" class="type" autocomplete="off">
+                            شام
+                        </label>
+                    </div>
+                    <div class="form-group pull-left">
                         <button class="btn btn-info" id="list-foods"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="m-1" style="list-style-type: none" id="selected-foods-list"></ul>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
-                    <button type="button" class="btn btn-primary" id="new-menu">ذخیره اطلاعات</button>
-                    <button type="button" class="btn btn-primary" id="edit-menu">بروزرسانی اطلاعات</button>
+                    <button type="button" class="btn btn-primary submit-button" id="new-menu">ذخیره اطلاعات</button>
+                    <button type="button" class="btn btn-primary submit-button" id="edit-menu">بروزرسانی اطلاعات
+                    </button>
                 </div>
             </div>
         </div>
@@ -81,7 +123,9 @@
                                         <div class="btn-group-toggle" data-toggle="buttons">
                                             <label class="btn btn-outline-secondary d-block m-auto">
                                                 <input type="checkbox" name="food-{{$food->id}}" class="foods"
-                                                       autocomplete="off" data-food-id="{{$food->id}}"
+                                                       autocomplete="off"
+                                                       data-food-id="{{$food->id}}"
+                                                       data-food-name="{{$food->name}}"
                                                        value="{{$food->id}}"> انتخاب
                                             </label>
                                         </div>
@@ -115,62 +159,102 @@
                 $("#new-menu-Modal").modal('toggle');
                 $("#edit-menu").addClass('d-none');
                 $("#new-menu").removeClass('d-none');
-                $("#new-menu").click(function () {
-                    let jDate = $('#jDate').val();
-                    let gDate = $('#gDate').val();
-                    Axios.post('days-foods', {gDate: gDate, foodsList: foodsList})
+            });
+
+            $("#new-menu").bind('click', function () {
+                let jDate = $('#jDate').val();
+                let gDate = $('#gDate').val();
+                let type = $(".type:checked").val();
+                if (gDate.length === 0) {
+                    toastr.error('لطفا تاریخ را انتخاب کنید.');
+                } else if (parseInt(type) !== 1 && parseInt(type) !== 2) {
+                    toastr.error('لطفا وعده غذایی را انتخاب کنید.');
+                } else if (foodsList.length === 0) {
+                    toastr.error('لطفا لیست غذاها را انتخاب کنید.');
+                } else {
+                    $(this).prop('disabled', true);
+                    $(this).text('درحال ارسال اطلاعات...');
+                    Axios.post('days-foods', {gDate, type, foodsList})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
-                        })
-                        .catch(function (error) {
-                            toastr.error('به علت اشکال داخلی انجام نشد.');
-                        })
-                        .finally(function () {
                             $("#menu").modal('toggle');
                             setTimeout(function () {
                                 window.location.reload();
                             }, 1000);
-                        });
-                });
-            });
-
-            $(".edit-menu").click(function () {
-                $("#new-menu-Modal").modal('toggle');
-                $("#new-menu").addClass('d-none');
-                $("#edit-menu").removeClass('d-none');
-                let jDate = $(this).attr('data-jDate');
-                let gDate = $(this).attr('data-gDate');
-                $('#jDate').val(jDate);
-                $('#gDate').val(gDate);
-                let registeredFoodList = $(this).attr('data-ids');
-                $(".foods").each(function () {
-                    if (registeredFoodList.indexOf($(this).attr('data-food-id')) !== -1) {
-                        let name = $(this)
-                            .prop('checked', true)
-                            .parent()
-                            .addClass('active')
-                            .parent()
-                            .prev('p')
-                            .text();
-                        $("#selected-foods-list").append('<li class="text-right m-1">' + name + '</li>');
-                    }
-                });
-                $('#edit-menu').click(function () {
-                    Axios.put('days-foods', {gDate: gDate, foodsList: foodsList})
-                        .then(function (response) {
-                            toastr.success('با موفقیت انجام شد.');
-                            console.log(response.data);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
+
+                        });
+                }
+
+            });
+            var jDate, gDate, type;
+            $(".edit-menu").click(function () {
+                $("#new-menu-Modal").modal('toggle');
+                $("#new-menu").addClass('d-none');
+                $("#edit-menu").removeClass('d-none');
+                jDate = $(this).attr('data-jDate');
+                gDate = $(this).attr('data-gDate');
+                $('#jDate').val(jDate);
+                $('#gDate').val(gDate);
+                type = $(this).attr('data-type');
+                let attribute;
+                if (parseInt(type) === 1) {
+                    attribute = 'data-lunchIds';
+                    $("#dinner-radio").prop('checked', false);
+                    $("#lunch-radio").prop('checked', true);
+                    $("#dinner-label").removeClass('active');
+                    $("#lunch-label").addClass('active');
+                } else if (parseInt(type) === 2) {
+                    attribute = 'data-dinnerIds';
+                    $("#lunch-radio").prop('checked', false);
+                    $("#dinner-radio").prop('checked', true);
+                    $("#lunch-label").removeClass('active');
+                    $("#dinner-label").addClass('active');
+                }
+                let registeredFoodList = $(this).attr(attribute);
+                $("#selected-foods-list").children().remove();
+                $(".foods").each(function () {
+                    if (registeredFoodList.indexOf($(this).attr('data-food-id')) !== -1) {
+                        let name = $(this).attr('data-food-name')
+                        $(this).prop('checked', true)
+                            .parent()
+                            .addClass('active');
+                        $("#selected-foods-list").append('<li class="text-right m-1">' + name + '</li>');
+                    }
+                });
+            });
+
+            $('#edit-menu').bind('click', function () {
+                if (gDate.length === 0) {
+                    toastr.error('لطفا تاریخ را انتخاب کنید.');
+                } else if (parseInt(type) !== 1 && parseInt(type) !== 2) {
+                    toastr.error('لطفا وعده غذایی را انتخاب کنید.');
+                } else if (foodsList.length === 0) {
+                    toastr.error('لطفا لیست غذاها را انتخاب کنید.');
+                } else {
+                    $(this).prop('disabled', true);
+                    $(this).text('درحال ارسال اطلاعات...');
+                    Axios.put('days-foods', {gDate, type, foodsList})
+                        .then(function (response) {
+                            toastr.success('با موفقیت انجام شد.');
                             $("#new-food-Modal").modal('toggle');
                             setTimeout(function () {
                                 window.location.reload();
                             }, 1000);
+                        })
+                        .catch(function (error) {
+                            $(this).prop('disabled', false);
+                            $(this).text('ذخیره اطلاعات');
+                            toastr.error('به علت اشکال داخلی انجام نشد.');
+                        })
+                        .finally(function () {
+
                         });
-                });
+                }
             });
 
             $('.delete-menu').click(function () {
@@ -206,7 +290,7 @@
                 $("#selected-foods-list > li").remove();
                 $(".foods:checked").each(function () {
                     let id = $(this).val();
-                    let name = $(this).parent().parent().prev('p').text();
+                    let name = $(this).attr('data-food-name');
                     foodsList.push({
                         id: id,
                         name: name
