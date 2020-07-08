@@ -38,6 +38,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('admin/popups/{id}', 'PopupController@update');
     Route::delete('admin/popups/{id}', 'PopupController@delete');
 
+    Route::post('polls', 'PollController@create');
 });
 Route::post('users/personal-code', 'UserController@getPersonalCode');
 

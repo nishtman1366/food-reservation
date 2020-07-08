@@ -182,3 +182,11 @@ label {
 img.food-item.active {
     border: 3px dashed red !important;
 }
+
+.pagination {
+    display: inline-flex !important;
+}
+
+.vote {
+    cursor: pointer;
+}

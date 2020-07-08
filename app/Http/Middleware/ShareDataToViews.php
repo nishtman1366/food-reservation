@@ -28,6 +28,8 @@ class ShareDataToViews
                 'jDate' => ta_persian_num($jDate),
             ]
         ];
+        View::share('data', $data);
+
         $route = $request->route()->getName();
 //        $popups = [];
 //        $popupVisited = false;
@@ -37,7 +39,6 @@ class ShareDataToViews
         $popups = PopupController::getPopupList();
 //
 //        }
-        View::share('data', $data);
         View::share('popups', $popups);
 
         return $next($request);

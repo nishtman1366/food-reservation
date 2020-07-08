@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Poll;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,7 +11,10 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.home');
+        $yesterday = Carbon::yesterday();
+        $user = Auth::user();
+        $poll = Poll::where('date', $yesterday)->where('user_id', $user->id)->exists();
+        return view('pages.home', ['poll' => $poll]);
     }
 
     public function login(Request $request)

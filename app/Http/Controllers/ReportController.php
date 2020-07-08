@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\FoodReservationExport;
 use App\Models\Food;
 use App\Models\Order;
+use App\Models\Poll;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -95,6 +96,23 @@ class ReportController extends Controller
                     'gDate' => $gDate,
                     'jDate' => $jDate,
                     'downloadLink' => $downloadLink,
+                ]);
+                break;
+            case 'Polls':
+                $gDate = $request->get('gDate');
+                $jDate = $request->get('jDate');
+                $count = 0;
+                $score = 0;
+                if (!is_null($gDate)) {
+                    $date = Carbon::createFromFormat('Y/m/d', $gDate)->hour(0)->minute(0)->second(0);
+                    $count = Poll::where('date', $date)->count();
+                    $score = Poll::where('date', $date)->avg('vote');
+                }
+                return view('pages.reports.polls', [
+                    'count' => $count,
+                    'score' => round($score, 1),
+                    'gDate' => $gDate,
+                    'jDate' => $jDate,
                 ]);
                 break;
         }
