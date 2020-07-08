@@ -67,7 +67,7 @@
         $(document).ready(function () {
             $('#jDate').MdPersianDateTimePicker({
                 // dateFormat: 'Y/m/d',
-                disableBeforeToday: true,
+                // disableBeforeToday: true,
                 targetTextSelector: '#jDate',
                 targetDateSelector: '#gDate'
             });

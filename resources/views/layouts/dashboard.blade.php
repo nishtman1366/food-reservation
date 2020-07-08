@@ -58,12 +58,6 @@
                                         مدیریت منوها
                                     </a>
                                 </div>
-                                <div>
-                                    <a class="dropdown-item text-right font-size-small"
-                                       href="{{route('reports.list')}}">
-                                        گزارشات
-                                    </a>
-                                </div>
                             </div>
                         </li>
                         <li class="nav-item font-size-normal dropdown">
@@ -74,6 +68,11 @@
                         <li class="nav-item font-size-normal dropdown">
                             <a class="nav-link app-bar-menu-item" href="{{route('popups.list')}}" role="button">
                                اطلاعیه ها
+                            </a>
+                        </li>
+                        <li class="nav-item font-size-normal dropdown">
+                            <a class="nav-link app-bar-menu-item" href="{{route('reports.list')}}" role="button">
+                                گزارشات
                             </a>
                         </li>
                     @endif

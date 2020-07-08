@@ -49,15 +49,15 @@
         <div class="row m-1 p-1">
             <div class="col-12">
                 <h4 class="text-right">نظرسنجی</h4>
-                <h5 class="text-right">نظرتون راجع به غذای دیروز چیه؟</h5>
+                <h5 class="text-right">نظرتون راجع به غذای روز {{$yesterday}} چیه؟</h5>
                 <div class="row">
-                    <div class="col-2 m-auto"><img data-toggle="tooltip" title="افتضاح بود" data-value="1"
+                    <div class="col-2 m-auto"><img data-toggle="tooltip" title="خوب نبود" data-value="1"
                                                    src="{{asset('assets/images/poll/1.png')}}" class="w-100 vote"></div>
                     <div class="col-2 m-auto"><img data-toggle="tooltip" title="بدمزه بود" data-value="2"
                                                    src="{{asset('assets/images/poll/2.png')}}" class="w-100 vote"></div>
                     <div class="col-2 m-auto"><img data-toggle="tooltip" title="معمولی" data-value="3"
                                                    src="{{asset('assets/images/poll/3.png')}}" class="w-100 vote"></div>
-                    <div class="col-2 m-auto"><img data-toggle="tooltip" title="خوشمزه بود" data-value="4"
+                    <div class="col-2 m-auto"><img data-toggle="tooltip" title="خوب بود" data-value="4"
                                                    src="{{asset('assets/images/poll/4.png')}}" class="w-100 vote"></div>
                     <div class="col-2 m-auto"><img data-toggle="tooltip" title="عالی بود" data-value="5"
                                                    src="{{asset('assets/images/poll/5.png')}}" class="w-100 vote"></div>

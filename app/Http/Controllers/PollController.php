@@ -13,7 +13,7 @@ class PollController extends Controller
     public function create(Request $request)
     {
         $user = Auth::user();
-        $yesterday = Carbon::yesterday()->addDay();
+        $yesterday = Carbon::yesterday();
         $dayFood = DaysFood::where('date', $yesterday)->exists();
         if (!$dayFood) return response()->json('در تاریخ ارسال شده غذا ارائه نشده است', 500);
 

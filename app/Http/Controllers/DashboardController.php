@@ -6,6 +6,7 @@ use App\Models\Poll;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Morilog\Jalali\Jalalian;
 
 class DashboardController extends Controller
 {
@@ -13,8 +14,12 @@ class DashboardController extends Controller
     {
         $yesterday = Carbon::yesterday();
         $user = Auth::user();
-        $poll = Poll::where('date', $yesterday)->where('user_id', $user->id)->exists();
-        return view('pages.home', ['poll' => $poll]);
+        $jYesterday=Jalalian::forge($yesterday)->format('Y/m/d');
+        $poll = Poll::where('date', $yesterday)
+            ->where('user_id', $user->id)
+            ->exists();
+
+        return view('pages.home', ['poll' => $poll, 'yesterday' => $jYesterday]);
     }
 
     public function login(Request $request)
