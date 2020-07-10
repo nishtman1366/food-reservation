@@ -21,7 +21,8 @@
                             </div>
                             <div class="form-inline">
                                 <label for="remember">مرا به خاطر بسپار</label>
-                                <input class="form-check-inline" type="checkbox" name="remember" value="true" id="remember">
+                                <input class="form-check-inline" type="checkbox" name="remember" value="true"
+                                       id="remember">
                                 <button class="btn btn-primary m-auto">ورود</button>
                                 <a href="#" id="get-personal-code" class="btn btn-primary m-auto">دریافت کد
                                     پرسنلی</a>
@@ -76,6 +77,7 @@
                 if (name.length === 0) {
                     toastr.error('لطفا قسمتی از نام خانوادگی خود را جهت جستجو وارد کنید.');
                 } else {
+                    $("#loading").addClass('d-flex');
                     Axios.post('users/personal-code', {name})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
@@ -85,8 +87,14 @@
                             if (users.length > 0) {
                                 for (let i = 0; i < users.length; i++) {
                                     usersListContainer.append('<div class="col-6 text-center">' + users[i].name + '</div>' +
-                                        '<div class="col-6 text-center">' + users[i].personal_code + '</div>');
+                                        '<div class="col-6 text-center select-code" style="cursor: pointer"  data-toggle="tooltip" title="برای انتخاب دابل کلیک کنید">' + users[i].personal_code + '</div>');
                                 }
+                                $('[data-toggle="tooltip"]').tooltip();
+                                $(".select-code").dblclick(function () {
+                                    let code = $(this).text();
+                                    $("#personal-code-Modal").modal('toggle');
+                                    $("#username").val(code);
+                                });
                             } else {
                                 usersListContainer.append('<div class="col-12">' +
                                     '<h4 class="text-info text-center">موردی یافت نشد</h4>' +
@@ -98,7 +106,7 @@
                             console.log(error);
                         })
                         .finally(function () {
-
+                            $("#loading").removeClass('d-flex');
                         });
                 }
             });

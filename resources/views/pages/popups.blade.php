@@ -99,6 +99,7 @@
                 let end = $("#endGDate").val();
                 $(this).prop('disabled', true);
                 $(this).text('درحال ارسال اطلاعات...');
+                $("#loading").addClass('d-flex');
                 Axios.post('admin/popups', {title, body, start, end})
                     .then(function (response) {
                         toastr.success('با موفقیت انجام شد.');
@@ -114,7 +115,7 @@
                         console.log(error.response.data);
                     })
                     .finally(function () {
-
+                        $("#loading").removeClass('d-flex');
                     });
             });
 
@@ -133,6 +134,7 @@
                 });
                 let id = $(this).attr('data-popup-id');
                 let popup;
+                $("#loading").addClass('d-flex');
                 Axios.get('admin/popups/' + id)
                     .then(function (response) {
                         popup = response.data;
@@ -165,16 +167,16 @@
                                     console.log(error.response.data);
                                 })
                                 .finally(function () {
-
+                                    $("#loading").removeClass('d-flex');
                                 })
 
                         });
                     })
-                    .catch(function (response) {
+                    .catch(function (error) {
                         toastr.error('اطلاعات وارد شده اشتباه است');
                     })
                     .finally(function () {
-
+                        $("#loading").removeClass('d-flex');
                     });
             });
 
@@ -185,6 +187,7 @@
                     '<button id="confirm-delete" class="btn btn-danger m-1">بله</button>' +
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#confirm-delete").click(function () {
+                    $("#loading").addClass('d-flex');
                     Axios.delete('admin/popups/' + id)
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
@@ -197,7 +200,7 @@
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });

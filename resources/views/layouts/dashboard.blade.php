@@ -97,11 +97,11 @@
                         </div>
                         <div class="dropdown-divider"></div>
                         <div class="row">
-                            <div class="col-6"><button class="btn btn-info" id="change-password-btn">تغییر کلمه عبور</button></div>
+                            <div class="col-6"><button class="btn btn-outline-info" id="change-password-btn">تغییر کلمه عبور</button></div>
                             <div class="col-6">
                                 <form action="{{route('logout')}}" method="post">
                                     @csrf
-                                    <button class="btn btn-primary col-12">خروج از سیستم</button>
+                                    <button class="btn btn-outline-danger col-12">خروج از سیستم</button>
                                 </form>
                             </div>
                         </div>
@@ -156,25 +156,27 @@
 @push('js')
     <script>
         $(document).ready(function () {
+            $('#change-password').click(function () {
+                let oldPassword = $('#old-password').val();
+                let newPassword = $('#new-password').val();
+                $("#loading").addClass('d-flex');
+                Axios.post('users/change-password', {oldPassword, newPassword})
+                    .then(function (response) {
+                        $("#loading").removeClass('d-flex');
+                        $("#message-container").removeClass('alert alert-danger').addClass('alert alert-success').html('کلمه عبور با موفقیت تغییر یافت');
+                        toastr.success('با موفقیت انجام شد.');
+                    })
+                    .catch(function (error) {
+                        $("#loading").removeClass('d-flex');
+                        $("#message-container").addClass('alert alert-danger').html(error.response.data.message);
+                        toastr.error('به علت اشکال داخلی انجام نشد.');
+                    })
+                    .finally(function () {
+
+                    });
+            });
             $("#change-password-btn").click(function () {
                 $("#change-password-Modal").modal('toggle');
-                $('#change-password').click(function () {
-                    let oldPassword = $('#old-password').val();
-                    let newPassword = $('#new-password').val();
-                    Axios.post('users/change-password', {oldPassword, newPassword})
-                        .then(function (response) {
-                            $("#message-container").removeClass('alert alert-danger').addClass('alert alert-success').html('کلمه عبور با موفقیت تغییر یافت');
-                            toastr.success('با موفقیت انجام شد.');
-                        })
-                        .catch(function (error) {
-                            console.log(error.response);
-                            $("#message-container").addClass('alert alert-danger').html(error.response.data.message);
-                            toastr.error('به علت اشکال داخلی انجام نشد.');
-                        })
-                        .finally(function () {
-
-                        });
-                });
             });
         });
     </script>

@@ -79,18 +79,19 @@
                     formData.append("name", name);
                     formData.append("file", image[0].files[0]);
                     formData.append("description", description);
+                    $("#loading").addClass('d-flex');
                     Axios.post('foods', formData, {headers: {'Content-Type': 'multipart/form-data'}})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-                            $("#new-food-Modal").modal('toggle');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });
@@ -107,6 +108,7 @@
                 $("#new-food").addClass('d-none');
                 $("#edit-food").removeClass('d-none');
                 $('#edit-food').click(function () {
+                    $("#loading").addClass('d-flex');
                     let name = $('#name').val();
                     let image = $('#image');
                     let description = $('#description').val();
@@ -117,15 +119,15 @@
                     Axios.post('foods/' + id, formData, {headers: {'Content-Type': 'multipart/form-data'}})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-                            $("#new-food-Modal").modal('toggle');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });
@@ -136,19 +138,20 @@
                     '<br>' +
                     '<button id="confirm-delete" class="btn btn-danger m-1">بله</button>' +
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
+                $("#loading").addClass('d-flex');
                 $("#confirm-delete").click(function () {
                     Axios.delete('foods/' + id)
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
-                            $("#food-row-" + id).remove();
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });

@@ -120,6 +120,7 @@
                     '<button id="confirm-select-food" class="btn btn-danger m-1">بله</button>' +
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $('#confirm-select-food').click(function () {
+                    $("#loading").addClass('d-flex');
                     Axios.post('reservations', {foodId, date, type})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
@@ -132,7 +133,7 @@
                             console.error(error);
                         })
                         .finally(function () {
-
+                            $("#loading").removeClass('d-flex');
                         })
                 });
             });

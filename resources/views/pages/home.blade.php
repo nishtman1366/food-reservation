@@ -71,6 +71,7 @@
         $(document).ready(function () {
             $('.vote').click(function () {
                 let vote = $(this).attr('data-value');
+                $("#loading").addClass('d-flex');
                 Axios.post('polls', {vote})
                     .then(function (response) {
                         toastr.success('با موفقیت انجام شد.');
@@ -79,7 +80,7 @@
                         toastr.error(error.response.data);
                     })
                     .finally(function () {
-
+                        $("#loading").removeClass('d-flex');
                     });
             });
         });

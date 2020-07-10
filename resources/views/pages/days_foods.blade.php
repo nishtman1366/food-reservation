@@ -175,6 +175,7 @@
                 } else {
                     $(this).prop('disabled', true);
                     $(this).text('درحال ارسال اطلاعات...');
+                    $("#loading").addClass('d-flex');
                     Axios.post('days-foods', {gDate, type, foodsList})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
@@ -187,7 +188,7 @@
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-
+                            $("#loading").removeClass('d-flex');
                         });
                 }
 
@@ -239,6 +240,7 @@
                 } else {
                     $(this).prop('disabled', true);
                     $(this).text('درحال ارسال اطلاعات...');
+                    $("#loading").addClass('d-flex');
                     Axios.put('days-foods', {gDate, type, foodsList})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
@@ -253,7 +255,7 @@
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-
+                            $("#loading").removeClass('d-flex');
                         });
                 }
             });
@@ -265,19 +267,20 @@
                     '<button id="confirm-delete" class="btn btn-danger m-1">بله</button>' +
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#confirm-delete").click(function () {
-                    console.log('s.th clicked!', date);
+                    $("#loading").addClass('d-flex');
                     Axios.delete('days-foods/' + date.replace('/', '-').replace('/', '-'))
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             $("#menu-row-" + date.replace('/', '-').replace('/', '-')).remove();
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });

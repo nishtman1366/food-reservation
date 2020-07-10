@@ -83,6 +83,7 @@
                     let personal_code = $('#personal_code').val();
                     $(this).prop('disabled', true);
                     $(this).text('درحال ارسال اطلاعات...');
+                    $("#loading").addClass('d-flex');
                     Axios.post('users', {first_name, last_name, national_code, personal_code})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
@@ -97,13 +98,14 @@
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });
 
             $('.edit-user').click(function () {
                 let id = $(this).attr('data-user-id');
+                $("#loading").addClass('d-flex');
                 Axios.get('users/' + id)
                     .then(function (response) {
                         $("#first_name").val(response.data.first_name);
@@ -115,7 +117,7 @@
                         toastr.error('به علت اشکال داخلی انجام نشد.');
                     })
                     .finally(function () {
-
+                        $("#loading").removeClass('d-flex');
                     });
                 $("#new-user-Modal").modal('toggle');
                 $("#new-user").addClass('d-none');
@@ -125,18 +127,20 @@
                     let last_name = $('#last_name').val();
                     let national_code = $('#national_code').val();
                     let personal_code = $('#personal_code').val();
+                    $("#loading").addClass('d-flex');
                     Axios.put('users/' + id, {first_name, last_name, national_code, personal_code})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
                             $("#new-user-Modal").modal('toggle');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });
@@ -148,17 +152,19 @@
                     '<button id="confirm-delete" class="btn btn-danger m-1">بله</button>' +
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#confirm-delete").click(function () {
+                    $("#loading").addClass('d-flex');
                     Axios.delete('users/' + id)
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
                         })
                         .catch(function (error) {
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })
                         .finally(function () {
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
+                            $("#loading").removeClass('d-flex');
                         });
                 });
             });
