@@ -36,6 +36,26 @@
             <div class="col-12 col-md-3 text-center alert alert-primary">میانگین امتیاز</div>
             <div class="col-12 col-md-3 text-center alert alert-danger persian-numbers">{{$score}} امتیاز</div>
         </div>
+        <div class="row">
+            <div class="col-12 col-md-4 m-auto">
+                <div class="row">
+                    <div class="col-6"><img src="{{asset('assets/images/poll/5.png')}}" class="w-100"></div>
+                    <div class="col-6 text-center d-flex align-items-center persian-numbers"><h4>{{$votes[4]}} رای</h4></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="col-6"><img src="{{asset('assets/images/poll/4.png')}}" class="w-100"></div>
+                    <div class="col-6 text-center d-flex align-items-center persian-numbers"><h4>{{$votes[3]}} رای</h4></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="col-6"><img src="{{asset('assets/images/poll/3.png')}}" class="w-100"></div>
+                    <div class="col-6 text-center d-flex align-items-center persian-numbers"><h4>{{$votes[2]}} رای</h4></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="col-6"><img src="{{asset('assets/images/poll/2.png')}}" class="w-100"></div>
+                    <div class="col-6 text-center d-flex align-items-center persian-numbers"><h4>{{$votes[1]}} رای</h4></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="col-6"><img src="{{asset('assets/images/poll/1.png')}}" class="w-100"></div>
+                    <div class="col-6 text-center d-flex align-items-center persian-numbers"><h4>{{$votes[0]}} رای</h4></div>
+                </div>
+            </div>
+        </div>
     @else
         <h3 class="text-center text-info">لطفا تاریخ گزارش را انتخاب کنید</h3>
     @endif

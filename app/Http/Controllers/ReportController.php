@@ -102,13 +102,27 @@ class ReportController extends Controller
                 $gDate = $request->get('gDate');
                 $jDate = $request->get('jDate');
                 $count = 0;
-                $score = 0;
+                $score =
+                $score1 = $score2 = $score3 = $score4 = $score5 = 0;
                 if (!is_null($gDate)) {
                     $date = Carbon::createFromFormat('Y/m/d', $gDate)->hour(0)->minute(0)->second(0);
-                    $count = Poll::where('date', $date)->count();
-                    $score = Poll::where('date', $date)->avg('vote');
+                    $votesQuery = Poll::where('date', $date);
+                    $count = $votesQuery->count();
+                    $score = $votesQuery->avg('vote');
+                    $score1 = Poll::where('date', $date)->where('vote', 1)->count();
+                    $score2 = Poll::where('date', $date)->where('vote', 2)->count();
+                    $score3 = Poll::where('date', $date)->where('vote', 3)->count();
+                    $score4 = Poll::where('date', $date)->where('vote', 4)->count();
+                    $score5 = Poll::where('date', $date)->where('vote', 5)->count();
                 }
                 return view('pages.reports.polls', [
+                    'votes' => [
+                        $score1,
+                        $score2,
+                        $score3,
+                        $score4,
+                        $score5,
+                    ],
                     'count' => $count,
                     'score' => round($score, 1),
                     'gDate' => $gDate,
