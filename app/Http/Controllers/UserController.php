@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employment\Unit;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,8 +12,11 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::orderBy('id', 'ASC')->paginate(15);
-        return view('pages.users', compact('users'));
+        $users = User::with('unit')
+            ->orderBy('id', 'ASC')
+            ->paginate(15);
+        $units = Unit::orderBy('name', 'ASC')->get();
+        return view('pages.users', compact('users', 'units'));
     }
 
     public function create(Request $request)

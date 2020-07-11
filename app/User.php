@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'username', 'password', 'national_code', 'personal_code', 'gender', 'api_token', 'level'
+        'first_name', 'last_name', 'user_units_id', 'username', 'password', 'national_code', 'personal_code', 'gender', 'api_token', 'level'
     ];
 
     protected $appends = ['name'];
@@ -43,5 +43,10 @@ class User extends Authenticatable
         if ($existence) return $this->createToken();
 
         return $token;
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(\App\Models\Employment\Unit::class, 'user_units_id', 'id');
     }
 }

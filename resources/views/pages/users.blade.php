@@ -6,6 +6,7 @@
         <tr>
             <th scope="col">ردیف</th>
             <th scope="col">نام</th>
+            <th scope="col">واحد شغلی</th>
             <th scope="col">نام کاربری</th>
             <th scope="col">شماره پرسنلی</th>
             <th scope="col">شماره ملی</th>
@@ -16,6 +17,7 @@
             <tr>
                 <td>{{$i}}</td>
                 <td>{{$user['first_name'].' '.$user['last_name']}}</td>
+                <td>{{!is_null($user->unit) ? $user->unit->name : '--'}}</td>
                 <td>{{$user['username']}}</td>
                 <td>{{$user['personal_code']}}</td>
                 <td>{{$user['national_code']}}</td>
@@ -52,6 +54,15 @@
                         <input type="text" name="last_name" id="last_name" class="form-control">
                     </div>
                     <div class="form-group">
+                        <label for="unit">واحد شغلی</label>
+                        <select name="unit" id="unit" class="form-control">
+                            <option value="">انتخاب کنید:</option>
+                            @foreach($units as $unit)
+                                <option value="{{$unit->id}}">{{$unit->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="national_code">شماره ملی</label>
                         <input type="text" name="national_code" id="national_code" class="form-control">
                     </div>
@@ -79,12 +90,13 @@
                 $('#new-user').click(function () {
                     let first_name = $('#first_name').val();
                     let last_name = $('#last_name').val();
+                    let user_units_id = $('#unit').val();
                     let national_code = $('#national_code').val();
                     let personal_code = $('#personal_code').val();
                     $(this).prop('disabled', true);
                     $(this).text('درحال ارسال اطلاعات...');
                     $("#loading").addClass('d-flex');
-                    Axios.post('users', {first_name, last_name, national_code, personal_code})
+                    Axios.post('users', {first_name, last_name, user_units_id, national_code, personal_code})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             $("#new-user-Modal").modal('toggle');
@@ -110,6 +122,7 @@
                     .then(function (response) {
                         $("#first_name").val(response.data.first_name);
                         $("#last_name").val(response.data.last_name);
+                        $("#unit").val(response.data.user_units_id);
                         $("#national_code").val(response.data.national_code);
                         $("#personal_code").val(response.data.personal_code);
                     })
@@ -125,10 +138,11 @@
                 $('#edit-user').click(function () {
                     let first_name = $('#first_name').val();
                     let last_name = $('#last_name').val();
+                    let user_units_id = $('#unit').val();
                     let national_code = $('#national_code').val();
                     let personal_code = $('#personal_code').val();
                     $("#loading").addClass('d-flex');
-                    Axios.put('users/' + id, {first_name, last_name, national_code, personal_code})
+                    Axios.put('users/' + id, {first_name, last_name, user_units_id, national_code, personal_code})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             setTimeout(function () {
