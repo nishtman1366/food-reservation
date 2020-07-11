@@ -61,9 +61,28 @@
                             </div>
                         </li>
                         <li class="nav-item font-size-normal dropdown">
-                            <a class="nav-link app-bar-menu-item" href="{{route('users.list')}}" role="button">
-                                مدیریت کاربران
+                            <a class="nav-link dropdown-toggle app-bar-menu-item"
+                               id="users-management"
+                               href="#"
+                               role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                کاربران
                             </a>
+                            <div class="app-bar-menu dropdown-menu dropdown-menu-right"
+                                 aria-labelledby="#users-management">
+                                <div>
+                                    <a class="dropdown-item text-right font-size-small"
+                                       href="{{route('users.list')}}">
+                                        مدیریت کابران
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="dropdown-item text-right font-size-small"
+                                       href="{{route('users.units.list')}}">
+                                        مدیریت واحدهای شغلی
+                                    </a>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item font-size-normal dropdown">
                             <a class="nav-link app-bar-menu-item" href="{{route('popups.list')}}" role="button">

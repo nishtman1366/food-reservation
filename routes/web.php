@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,9 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/', 'UserController@index')->name('users.list');
+        Route::prefix('units')->group(function () {
+            Route::get('/', 'UnitController@index')->name('users.units.list');
+        });
     });
 
     Route::prefix('foods-reservations')->group(function () {
@@ -47,4 +51,18 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     });
 
     Route::post('/logout', 'DashboardController@logout')->name('logout');
+});
+
+Route::get('csv', function () {
+    $file = fopen(storage_path('app/data') . '/personal.csv', 'r');
+    if (!$file) die('error');
+    while (!feof($file)) {
+        $data = fgetcsv($file);
+        $unit = \App\Models\Employment\Unit::firstOrCreate(['name' => $data[1]]);
+        $user = User::where('personal_code', trim($data[2]))->get()->first();
+        if (!is_null($user)) {
+            $user->user_units_id = $unit->id;
+            $user->save();
+        }
+    }
 });

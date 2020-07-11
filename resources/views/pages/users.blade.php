@@ -2,7 +2,7 @@
 
 @section('dashboard_content')
     <button class="btn btn-info m-1" id="new-user-btn">ثبت کاربر جدید</button>
-    <table class="table table-hover">
+    <table class="table table-striped table-hover">
         <tr>
             <th scope="col">ردیف</th>
             <th scope="col">نام</th>
@@ -105,7 +105,7 @@
                             }, 1000);
                         })
                         .catch(function (error) {
-                            $(this).prop('disabled', flase);
+                            $(this).prop('disabled', false);
                             $(this).text('ذخیره اطلاعات');
                             toastr.error('به علت اشکال داخلی انجام نشد.');
                         })

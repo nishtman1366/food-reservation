@@ -13,9 +13,9 @@
                            class="form-control border-right-0 border-left-0" readonly
                            style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
                            value="{{isset($jDate) && !is_null($jDate) ? $jDate : ''}}">
-                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;" >ناهار</span>
+                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">ناهار</span>
                     <input style="background-color: #e9ecef" checked type="radio" name="type" value="1">
-                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;" >شام</span>
+                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">شام</span>
                     <input type="radio" name="type" value="2" autocomplete="off">
                     <button class="btn btn-primary border-right-0"
                             style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو
@@ -38,14 +38,14 @@
         @if(count($list) > 0)
             <table class="table table-hover">
                 <tr>
-                    <th colspan="3">
+                    <th class="bg-warning text-dark" colspan="3">
                         گزارش مربوط به تاریخ {{$jDate}}
                     </th>
                 </tr>
                 <tr>
-                    <th scope="col">ردیف</th>
-                    <th scope="col">نام غذا</th>
-                    <th scope="col">تعداد</th>
+                    <th class="bg-danger" scope="col">ردیف</th>
+                    <th class="bg-danger" scope="col">نام غذا</th>
+                    <th class="bg-danger" scope="col">تعداد</th>
                 </tr>
                 @foreach($list as $item)
                     <tr>

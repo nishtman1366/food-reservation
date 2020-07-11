@@ -9,6 +9,15 @@
                     <div class="card-body">
                         <h4 class="text-center">سامانه ثبت سفارش غذا</h4>
                         <h3 class="text-center">شرکت ریخته گری دقیق پارس</h3>
+                        @if($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{$error}}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{route('sign.in')}}" method="post">
                             @csrf
                             <div class="form-group">
