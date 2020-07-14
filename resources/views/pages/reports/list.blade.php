@@ -12,6 +12,10 @@
                 غذای پرسنل</a>
         </div>
         <div class="col-12 col-md-3">
+            <a href="{{route('reports.view',['name'=>'Units-Orders'])}}" class="btn btn-outline-danger {{isset($active) && $active==4 ? 'active' : ''}} col-12 m-1">لیست
+                سفارشات واحدها</a>
+        </div>
+        <div class="col-12 col-md-3">
             <a href="{{route('reports.view',['name'=>'Polls'])}}" class="btn btn-outline-success {{isset($active) && $active==3 ? 'active' : ''}} col-12 m-1">لیست
                 نظرسنجی</a>
         </div>

@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Exports\FoodReservationExport;
+use App\Models\Employment\Unit;
 use App\Models\Food;
 use App\Models\Order;
 use App\Models\Poll;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Morilog\Jalali\Jalalian;
 
 class ReportController extends Controller
 {
@@ -127,6 +130,43 @@ class ReportController extends Controller
                     'score' => round($score, 1),
                     'gDate' => $gDate,
                     'jDate' => $jDate,
+                ]);
+                break;
+            case 'Units-Orders':
+                $monthes = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+                $selectedMonth = (int)$request->get('month');
+                $type = $request->get('type');
+                $data = [];
+                if (!is_null($selectedMonth)) {
+                    $monthFirstDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), $selectedMonth, 1);
+                    $monthLastDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), $selectedMonth, 30);
+                    $date = [
+                        $monthFirstDay,
+                        $monthLastDay
+                    ];
+                    $units = Unit::orderBy('name', 'ASC')->get();
+                    $i = 1;
+                    foreach ($units as $unit) {
+                        $ordersCount = Order::whereHas('user', function ($query) use ($unit) {
+                            $query->whereHas('unit', function ($q) use ($unit) {
+                                $q->where('id', $unit->id);
+                            });
+                        })->whereHas('daysFood', function ($query) use ($date, $type) {
+                            $query->where('date', '>=', sprintf('%s-%s-%s', $date[0][0], $date[0][1], $date[0][2]))
+                                ->where('date', '<=', sprintf('%s-%s-%s', $date[1][0], $date[1][1], $date[1][2]));
+                        })->count();
+                        $data[] = [
+                            '#' => $i,
+                            'unit' => $unit->name,
+                            'ordersCount' => $ordersCount
+                        ];
+                        $i++;
+                    }
+                }
+                return view('pages.reports.units', [
+                    'monthes' => $monthes,
+                    'selectedMonth' => $selectedMonth,
+                    'list' => $data,
                 ]);
                 break;
         }

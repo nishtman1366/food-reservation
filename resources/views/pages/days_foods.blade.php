@@ -6,7 +6,6 @@
         @if(!is_null($dayFoods) && count($dayFoods) > 0)
             @foreach($dayFoods as $dayFood)
                 <div id="menu-row-{{str_replace('/','-',$dayFood['jDate'])}}" class="col-12">
-                    {{$dayFood['gDate']}}
                     <div class="row border rounded m-1" style="height: 100px">
                         <div class="col-4 text-center d-flex flex-column">
                             <div class="p-2 persian-numbers">{{$dayFood['jDate']}}<br>{{$dayFood['weekday']}}</div>
