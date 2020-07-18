@@ -36,7 +36,7 @@
         </div>
     </form>
     <div class="dropdown-divider"></div>
-    @if(isset($selectedMonth))
+    @if(isset($selectedMonth) && $selectedMonth!=0)
         @if(count($list) > 0)
             <table class="table table-hover">
                 <tr>
