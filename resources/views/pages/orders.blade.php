@@ -107,35 +107,56 @@
             <h3 class="col-12 text-info text-center">موردی برای نمایش یافت نشد.</h3>
         @endif
     </div>
+    <div class="modal fade" id="confirm-Modal" tabindex="-1" role="dialog" aria-labelledby="confirm-ModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirm-ModalLabel">تایید سفارش غذا</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center alert alert-success">آیا از انتخاب این غذا مطمئن هستید؟</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-primary" id="confirm-select-food">بله</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('js')
     <script>
         $(document).ready(function () {
+            let foodId = $(this).attr('data-food-id');
+            let date = $(this).attr('data-date');
+            let type = $(this).attr('data-food-type');
             $(".food-item").click(function () {
-                let foodId = $(this).attr('data-food-id');
-                let date = $(this).attr('data-date');
-                let type = $(this).attr('data-food-type');
-                toastr.warning('آیا از این انتخاب مطمئن هستید؟' +
-                    '<br>' +
-                    '<button id="confirm-select-food" class="btn btn-danger m-1">بله</button>' +
-                    '<button class="btn btn-secondary clear m-1">خیر</button>');
-                $('#confirm-select-food').click(function () {
-                    $("#loading").addClass('d-flex');
-                    Axios.post('reservations', {foodId, date, type})
-                        .then(function (response) {
-                            toastr.success('با موفقیت انجام شد.');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1000);
-                        })
-                        .catch(function (error) {
-                            toastr.error('به علت اشکال داخلی انجام نشد.');
-                            console.error(error);
-                        })
-                        .finally(function () {
-                            $("#loading").removeClass('d-flex');
-                        })
-                });
+                foodId = $(this).attr('data-food-id');
+                date = $(this).attr('data-date');
+                type = $(this).attr('data-food-type');
+                $("#confirm-Modal").modal('toggle');
+            });
+            $('#confirm-select-food').click(function () {
+                $("#confirm-Modal").modal('toggle');
+                $("#loading").addClass('d-flex');
+                Axios.post('reservations', {foodId, date, type})
+                    .then(function (response) {
+                        toastr.success('با موفقیت انجام شد.');
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    })
+                    .catch(function (error) {
+                        toastr.error('به علت اشکال داخلی انجام نشد.');
+                        console.error(error);
+                    })
+                    .finally(function () {
+                        $("#loading").removeClass('d-flex');
+                    })
             });
         });
     </script>
