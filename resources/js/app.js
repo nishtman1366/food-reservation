@@ -1,9 +1,9 @@
 require('./bootstrap');
 
 $(document).ready(function () {
+    let serverAddress = document.head.querySelector('meta[name="server-address"]');
     window.Axios = axios.create({
-        baseURL: 'http://192.168.10.13/api/',
-        // baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: serverAddress.content + '/api',
         timeout: 5000,
     });
 

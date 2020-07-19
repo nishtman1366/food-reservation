@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="server-address" content="{{request()->getSchemeAndHttpHost()}}">
     <meta name="csrf-token" content="{{csrf_token()}}">
     @auth
         <meta name="api-token" content="{{\Illuminate\Support\Facades\Auth::user()->api_token}}">
