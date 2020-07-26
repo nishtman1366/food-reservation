@@ -134,12 +134,13 @@ class ReportController extends Controller
                 break;
             case 'Units-Orders':
                 $monthes = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
-                $selectedMonth = (int)$request->get('month');
+                $selectedMonth = $request->get('month');
                 $type = $request->get('type');
                 $data = [];
+                $downloadLink = null;
                 if (!is_null($selectedMonth)) {
-                    $monthFirstDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), $selectedMonth, 1);
-                    $monthLastDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), $selectedMonth, 30);
+                    $monthFirstDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), (int)$selectedMonth, 1);
+                    $monthLastDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), (int)$selectedMonth, 30);
                     $date = [
                         $monthFirstDay,
                         $monthLastDay
@@ -162,11 +163,16 @@ class ReportController extends Controller
                         ];
                         $i++;
                     }
+                    $fileName = 'Unit-Orders.' . (int)$selectedMonth . '.xlsx';
+                    $downloadLink = url('storage/reports') . '/' . $fileName;
+                    $headers = ['ردیف', 'نام واحد', 'تعداد سفارش'];
+                    Excel::store(new FoodReservationExport(collect($data), $headers), 'reports/' . $fileName, 'public');
                 }
                 return view('pages.reports.units', [
                     'monthes' => $monthes,
                     'selectedMonth' => $selectedMonth,
                     'list' => $data,
+                    'downloadLink' => $downloadLink,
                 ]);
                 break;
         }

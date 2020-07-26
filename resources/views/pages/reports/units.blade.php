@@ -16,23 +16,23 @@
                                 value="{{$key+1}}" {{($key+1)==$selectedMonth ? 'selected' : ''}}>{{$value}}</option>
                         @endforeach
                     </select>
-{{--                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">ناهار</span>--}}
-{{--                    <input type="radio" name="type" value="1" autocomplete="off">--}}
-{{--                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">شام</span>--}}
-{{--                    <input type="radio" name="type" value="2" autocomplete="off">--}}
+                    {{--                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">ناهار</span>--}}
+                    {{--                    <input type="radio" name="type" value="1" autocomplete="off">--}}
+                    {{--                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">شام</span>--}}
+                    {{--                    <input type="radio" name="type" value="2" autocomplete="off">--}}
                     <button class="btn btn-primary border-right-0"
                             style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو
                     </button>
                 </div>
             </div>
-            {{--            <div class="col-6 pull-left">--}}
-            {{--                @if(!is_null($downloadLink))--}}
-            {{--                    <a href="{{$downloadLink}}" class="btn btn-outline-success" data-toggle="tooltip"--}}
-            {{--                       title="دریافت فایل اکسل">--}}
-            {{--                        <i class="fa fa-file-excel-o"></i>--}}
-            {{--                    </a>--}}
-            {{--                @endif--}}
-            {{--            </div>--}}
+            <div class="col-6 pull-left">
+                @if(!is_null($downloadLink))
+                    <a href="{{$downloadLink}}" class="btn btn-outline-success" data-toggle="tooltip"
+                       title="دریافت فایل اکسل">
+                        <i class="fa fa-file-excel-o"></i>
+                    </a>
+                @endif
+            </div>
         </div>
     </form>
     <div class="dropdown-divider"></div>
