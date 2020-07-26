@@ -22,7 +22,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::prefix('users')->group(function () {
-        Route::get('/', 'UserController@index')->name('users.list');
+        Route::match(['GET','POST'],'/', 'UserController@index')->name('users.list');
         Route::prefix('units')->group(function () {
             Route::get('/', 'UnitController@index')->name('users.units.list');
         });

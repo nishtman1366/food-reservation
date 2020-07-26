@@ -12,7 +12,14 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
+        $searchQuery = $request->get('searchQuery', null);
         $users = User::with('unit')
+            ->where(function ($query) use ($searchQuery) {
+                if (!is_null($searchQuery)) {
+                    $query->where('first_name', 'LIKE', '%' . $searchQuery . '%');
+                    $query->orWhere('last_name', 'LIKE', '%' . $searchQuery . '%');
+                }
+            })
             ->orderBy('id', 'ASC')
             ->paginate(15);
         $units = Unit::orderBy('name', 'ASC')->get();
@@ -63,7 +70,8 @@ class UserController extends Controller
     public function getPersonalCode(Request $request)
     {
         $name = $request->get('name');
-        $users = User::where('last_name', 'LIKE', '%' . $name . '%')->get();
+        $users = User::where('last_name', 'LIKE', '%' . $name . '%')
+            ->orWhere('first_name', 'LIKE', '%' . $name . '%')->get();
         return response()->json($users);
     }
 

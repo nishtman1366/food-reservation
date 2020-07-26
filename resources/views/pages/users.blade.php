@@ -1,7 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('dashboard_content')
-    <button class="btn btn-info m-1" id="new-user-btn">ثبت کاربر جدید</button>
+    <form action="{{route('users.list')}}" method="post">
+        @csrf
+        <div class="input-group">
+            <span class="input-group-text border-left-0" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">جستجو: </span>
+            <input class="form-control border-right-0 border-left-0" style="border-radius: 0;" type="text" name="searchQuery" value="{{old('searchQuery',null)}}">
+            <button class="btn btn-primary border-right-0 border-left-0" style="border-radius: 0;">جستجو</button>
+            <button type="button" class="btn btn-info border-right-0" style="border-top-right-radius: 0;border-bottom-right-radius: 0;" id="new-user-btn">ثبت کاربر جدید</button>
+        </div>
+    </form>
     <table class="table table-striped table-hover">
         <tr>
             <th scope="col">ردیف</th>
