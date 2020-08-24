@@ -10,7 +10,6 @@ use App\Models\Poll;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Morilog\Jalali\Jalalian;
 
@@ -133,18 +132,16 @@ class ReportController extends Controller
                 ]);
                 break;
             case 'Units-Orders':
-                $monthes = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
-                $selectedMonth = $request->get('month');
+                $jDateFrom = $request->get('jDateFrom');
+                $gDateFrom = $request->get('gDateFrom');
+                $jDateTo = $request->get('jDateTo');
+                $gDateTo = $request->get('gDateTo');
                 $type = $request->get('type');
                 $data = [];
                 $downloadLink = null;
-                if (!is_null($selectedMonth)) {
-                    $monthFirstDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), (int)$selectedMonth, 1);
-                    $monthLastDay = \Morilog\Jalali\CalendarUtils::toGregorian(Jalalian::now()->format('Y'), (int)$selectedMonth, 30);
-                    $date = [
-                        $monthFirstDay,
-                        $monthLastDay
-                    ];
+                if (!is_null($jDateFrom) && !is_null($jDateTo)) {
+                    $gDateFrom = Carbon::createFromFormat('Y/m/d', $gDateFrom)->hour(0)->minute(0)->second(0);
+                    $gDateTo = Carbon::createFromFormat('Y/m/d', $gDateTo)->hour(0)->minute(0)->second(0);
                     $units = Unit::orderBy('name', 'ASC')->get();
                     $i = 1;
                     foreach ($units as $unit) {
@@ -152,9 +149,9 @@ class ReportController extends Controller
                             $query->whereHas('unit', function ($q) use ($unit) {
                                 $q->where('id', $unit->id);
                             });
-                        })->whereHas('daysFood', function ($query) use ($date, $type) {
-                            $query->where('date', '>=', sprintf('%s-%s-%s', $date[0][0], $date[0][1], $date[0][2]))
-                                ->where('date', '<=', sprintf('%s-%s-%s', $date[1][0], $date[1][1], $date[1][2]));
+                        })->whereHas('daysFood', function ($query) use ($gDateFrom, $gDateTo, $type) {
+                            $query->where('date', '>=', $gDateFrom)
+                                ->where('date', '<=', $gDateTo);
                         })->count();
                         $data[] = [
                             '#' => $i,
@@ -163,14 +160,16 @@ class ReportController extends Controller
                         ];
                         $i++;
                     }
-                    $fileName = 'Unit-Orders.' . (int)$selectedMonth . '.xlsx';
+                    $fileName = 'Unit-Orders.' . str_replace('/', '', $jDateFrom) . '.xlsx';
                     $downloadLink = url('storage/reports') . '/' . $fileName;
                     $headers = ['ردیف', 'نام واحد', 'تعداد سفارش'];
                     Excel::store(new FoodReservationExport(collect($data), $headers), 'reports/' . $fileName, 'public');
                 }
                 return view('pages.reports.units', [
-                    'monthes' => $monthes,
-                    'selectedMonth' => $selectedMonth,
+                    'jDateFrom' => $jDateFrom,
+                    'jDateTo' => $jDateTo,
+                    'gDateFrom' => $gDateFrom,
+                    'gDateTo' => $gDateTo,
                     'list' => $data,
                     'downloadLink' => $downloadLink,
                 ]);
