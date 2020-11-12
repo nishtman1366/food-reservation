@@ -24,7 +24,8 @@ class DashboardController extends Controller
 
     public function login(Request $request)
     {
-        return view('pages.login');
+        $popups = PopupController::getPopupList();
+        return view('pages.login', compact('popups'));
     }
 
     public function signIn(Request $request)

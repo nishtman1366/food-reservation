@@ -1,7 +1,6 @@
 @extends('app')
 
 @section('content')
-    @include('components.popup')
     <div id="status-bar" class="row p-sm-1">
         <div class="col-sm-12 col-md-9">
             {{-- Calendar --}}

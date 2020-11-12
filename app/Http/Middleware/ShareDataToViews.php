@@ -30,17 +30,6 @@ class ShareDataToViews
         ];
         View::share('data', $data);
 
-        $route = $request->route()->getName();
-//        $popups = [];
-//        $popupVisited = false;
-//
-//
-//        if (!$popupVisited) {
-        $popups = PopupController::getPopupList();
-//
-//        }
-        View::share('popups', $popups);
-
         return $next($request);
     }
 }

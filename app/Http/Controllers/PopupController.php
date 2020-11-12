@@ -56,12 +56,9 @@ class PopupController extends Controller
     public static function getPopupList()
     {
         $now = \Carbon\Carbon::now();
-        DB::enableQueryLog();
         $popups = Popup::where('start', '<', $now)
             ->where('end', '>', $now)
             ->orderBy('id', 'ASC')->get();
-        $queries = DB::getQueryLog();
-//        dd($queries);
         return $popups;
     }
 }

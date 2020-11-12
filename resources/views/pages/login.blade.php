@@ -1,6 +1,7 @@
 @extends('app')
 
 @section('content')
+    @include('components.popup')
     <div class="container-fluid d-flex flex-column h-100"
          style="background-image: url('{{asset('assets/images/home-bg.jpg')}}');background-size: cover">
         <div class="row flex-grow-1">
