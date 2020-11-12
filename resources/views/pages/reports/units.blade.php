@@ -3,23 +3,24 @@
 @section('reports_content')
     <form action="{{route('reports.view',['name'=>'Units-Orders'])}}" method="post">
         @csrf
+        <input type="hidden" name="gDateFrom" id="gDateFrom" value="{{isset($gDateFrom) && !is_null($gDateFrom) ? $gDateFrom : ''}}">
+        <input type="hidden" name="gDateTo" id="gDateTo" value="{{isset($gDateTo) && !is_null($gDateTo) ? $gDateTo : ''}}">
+
         <div class="row">
             <div class="col-12 col-md-6 m-auto">
                 <div class="input-group">
                     <span class="input-group-text border-left-0"
-                          style="border-top-left-radius: 0;border-bottom-left-radius: 0;">تاریخ:</span>
-                    <select name="month" size="1" class="form-control border-right-0 border-left-0"
-                            style="border-radius: 0;">
-                        <option value="">انتخاب:</option>
-                        @foreach($monthes as $key=>$value)
-                            <option
-                                value="{{$key+1}}" {{($key+1)==$selectedMonth ? 'selected' : ''}}>{{$value}}</option>
-                        @endforeach
-                    </select>
-                    {{--                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">ناهار</span>--}}
-                    {{--                    <input type="radio" name="type" value="1" autocomplete="off">--}}
-                    {{--                    <span class="input-group-text border-left-0 border-right-0" style="border-radius: 0;">شام</span>--}}
-                    {{--                    <input type="radio" name="type" value="2" autocomplete="off">--}}
+                          style="border-top-left-radius: 0;border-bottom-left-radius: 0;">از تاریخ:</span>
+                    <input id="jDateFrom" type="text" data-mddatetimepicker="true" data-placement="right" name="jDateFrom"
+                           class="form-control border-right-0 border-left-0" readonly
+                           style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
+                           value="{{isset($jDateFrom) && !is_null($jDateFrom) ? $jDateFrom : ''}}">
+                    <span class="input-group-text border-left-0"
+                          style="border-top-left-radius: 0;border-bottom-left-radius: 0;">تا تاریخ:</span>
+                    <input id="jDateTo" type="text" data-mddatetimepicker="true" data-placement="right" name="jDateTo"
+                           class="form-control border-right-0 border-left-0" readonly
+                           style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
+                           value="{{isset($jDateTo) && !is_null($jDateTo) ? $jDateTo : ''}}">
                     <button class="btn btn-primary border-right-0"
                             style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو
                     </button>
@@ -36,12 +37,12 @@
         </div>
     </form>
     <div class="dropdown-divider"></div>
-    @if(isset($selectedMonth) && $selectedMonth!=0)
+    @if(isset($jDateFrom) && isset($jDateTo))
         @if(count($list) > 0)
             <table class="table table-hover">
                 <tr>
                     <th colspan="3">
-                        گزارش مربوط به ماه {{$monthes[$selectedMonth-1]}}
+                        گزارش مربوط به تاریخ {{$jDateFrom}} تا تاریخ {{$jDateTo}}
                     </th>
                 </tr>
                 <tr>
@@ -64,3 +65,17 @@
         <h3 class="text-center text-info">لطفا تاریخ گزارش را انتخاب کنید</h3>
     @endif
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function () {
+            $('#jDateFrom').MdPersianDateTimePicker({
+                targetTextSelector: '#jDateFrom',
+                targetDateSelector: '#gDateFrom'
+            });
+            $('#jDateTo').MdPersianDateTimePicker({
+                targetTextSelector: '#jDateTo',
+                targetDateSelector: '#gDateTo'
+            });
+        });
+    </script>
+@endpush
