@@ -82,7 +82,7 @@ class ReportController extends Controller
                         if (!is_null($order)) {
                             $data[] = [
                                 '#' => $i,
-                                'name' => $user->name,
+                                'name' => $user->last_name . ' ' . $user->first_name,
                                 'food' => $order->daysFood->food->name
                             ];
                             $i++;
