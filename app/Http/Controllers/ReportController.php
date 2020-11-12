@@ -70,7 +70,7 @@ class ReportController extends Controller
                 $downloadLink = null;
                 if (!is_null($gDate)) {
                     $date = Carbon::createFromFormat('Y/m/d', $gDate)->hour(0)->minute(0)->second(0);
-                    $users = User::where('level', 2)->orderBy('id', 'ASC')->get();
+                    $users = User::where('level', 2)->orderBy('last_name', 'ASC')->get();
                     $i = 1;
                     foreach ($users as $user) {
                         $order = Order::with('daysFood.food')
