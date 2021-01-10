@@ -34,19 +34,21 @@
         @if(count($list) > 0)
             <table class="table table-hover">
                 <tr>
-                    <th colspan="3">
+                    <th colspan="4">
                         گزارش مربوط به تاریخ {{$jDate}}
                     </th>
                 </tr>
                 <tr>
                     <th scope="col">ردیف</th>
                     <th scope="col">نام</th>
+                    <th scope="col">واحد شغلی</th>
                     <th scope="col">نام غذا</th>
                 </tr>
                 @foreach($list as $item)
                     <tr>
                         <td class="persian-numbers">{{$item['#']}}</td>
                         <td>{{$item['name']}}</td>
+                        <td>{{$item['unit']}}</td>
                         <td class="persian-numbers">{{$item['food']}}</td>
                     </tr>
                 @endforeach
