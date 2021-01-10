@@ -93,6 +93,11 @@
                                 گزارشات
                             </a>
                         </li>
+                        <li class="nav-item font-size-normal dropdown">
+                            <a class="nav-link app-bar-menu-item" href="{{route('settings.main')}}" role="button">
+                                تنظیمات
+                            </a>
+                        </li>
                     @endif
                 @endauth
             </ul>

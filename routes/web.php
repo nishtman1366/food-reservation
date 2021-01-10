@@ -22,7 +22,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::prefix('users')->group(function () {
-        Route::match(['GET','POST'],'/', 'UserController@index')->name('users.list');
+        Route::match(['GET', 'POST'], '/', 'UserController@index')->name('users.list');
         Route::prefix('units')->group(function () {
             Route::get('/', 'UnitController@index')->name('users.units.list');
         });
@@ -42,6 +42,11 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::prefix('reports')->group(function () {
         Route::get('/', 'ReportController@index')->name('reports.list');
         Route::match(['get', 'post'], '/{name}', 'ReportController@view')->name('reports.view');
+    });
+
+    Route::prefix('settings')->name('settings.')->group(function () {
+        Route::get('', 'SettingController@index')->name('main');
+        Route::post('', 'SettingController@update')->name('update');
     });
 
     Route::prefix('admin')->group(function () {

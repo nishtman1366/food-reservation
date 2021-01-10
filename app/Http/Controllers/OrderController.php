@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DaysFood;
 use App\Models\Order;
+use App\Setting;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +14,13 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $today = Carbon::today()->addDay();
+        $settings = Setting::where('key', 'ALLOW_ORDER_ALL_TIME')->get()->first();
+        if($settings->value==1){
+            $today = Carbon::today();
+        }else{
+            $today = Carbon::today()->addDay();
+        }
+
         if (date('H') > 16) $today->addDay();
         $days = DaysFood::where('date', '>=', $today)->groupBy('date')->get(['date']);
         $list = [];
