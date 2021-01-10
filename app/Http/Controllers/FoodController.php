@@ -17,9 +17,10 @@ class FoodController extends Controller
 
     public function create(Request $request)
     {
-
-        $file = $request->file('file')->store('foods', 'public');
-        $request->merge(['image' => basename($file)]);
+        if($request->hasFile('file')) {
+            $file = $request->file('file')->store('foods', 'public');
+            $request->merge(['image' => basename($file)]);
+        }
         $food = Food::create($request->all());
 
         return response()->json($food);
