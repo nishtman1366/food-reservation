@@ -70,7 +70,8 @@
 </head>
 <body>
 @include('components.loading')
-<div id="main" style="background-image: url('{{asset('assets/images/dashboard-bg.jpg')}}');background-size: cover">
+{{--<div id="main" style="background-image: url('{{asset('assets/images/dashboard-bg.jpg')}}');background-size: cover">--}}
+<div id="main" style="background: linear-gradient(340deg, #b0e5ff, #77c6ff, #46a1ff, #3765e6, #243fa2)">
     @yield('content')
 </div>
 <script src="{{asset('js/app.js')}}"></script>
