@@ -39,6 +39,15 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('/', 'OrderController@index')->name('orders');
     });
 
+    Route::prefix('reservations')->name('reservations.')->group(function () {
+        Route::get('/', 'ConferenceController@index')->name('list');
+        Route::get('/new', 'ConferenceController@create')->name('create');
+        Route::post('/', 'ConferenceController@store')->name('store');
+        Route::get('/{id}', 'ConferenceController@view')->name('view');
+        Route::put('/{id}', 'ConferenceController@update')->name('update');
+        Route::get('/{id}/delete', 'ConferenceController@destroy')->name('delete');
+    });
+
     Route::prefix('reports')->group(function () {
         Route::get('/', 'ReportController@index')->name('reports.list');
         Route::match(['get', 'post'], '/{name}', 'ReportController@view')->name('reports.view');

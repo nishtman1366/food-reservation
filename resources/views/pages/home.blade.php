@@ -12,6 +12,17 @@
                 </div>
             </a>
         </div>
+        <div class="col-12 col-md-3 m-auto">
+            <a href="{{route('reservations.create')}}">
+                <div class="btn btn-success m-1 col-12" style="height: 120px">
+                    <i class="fa fa-history" style="font-size: 4em"></i>
+                    <p class="text-center" style="font-size: 1em">
+                        رزرو اتاق جلسات<br>
+                        ورود مهمان
+                    </p>
+                </div>
+            </a>
+        </div>
         @if(Auth::user()->level==1)
             <div class="col-12 col-md-3 m-auto">
                 <a href="{{route('users.list')}}">

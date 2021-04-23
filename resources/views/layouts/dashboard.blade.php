@@ -61,6 +61,30 @@
                         </li>
                         <li class="nav-item font-size-normal dropdown">
                             <a class="nav-link dropdown-toggle app-bar-menu-item"
+                               id="foods-reservation"
+                               href="{{route('foods.reservation')}}"
+                               role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                رزرواسیون
+                            </a>
+                            <div class="app-bar-menu dropdown-menu dropdown-menu-right"
+                                 aria-labelledby="#foods-reservation">
+                                <div>
+                                    <a class="dropdown-item text-right font-size-small"
+                                       href="{{route('reservations.list')}}">
+                                        لیست درخواست ها
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="dropdown-item text-right font-size-small"
+                                       href="{{route('reservations.create')}}">
+                                        ثبت درخواست
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item font-size-normal dropdown">
+                            <a class="nav-link dropdown-toggle app-bar-menu-item"
                                id="users-management"
                                href="#"
                                role="button"
