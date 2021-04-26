@@ -34,12 +34,14 @@
                     <div class="form-group col-12 col-md-8">
                         <label for="subject">موضوع:</label>
                         <input class="form-control @error('subject') is-invalid @enderror" type="text"
+                               {{Auth::user()->level==2 ? 'disabled' : ''}}
                                id="subject" name="subject" value="{{old('subject',$reservation->subject)}}">
                         <span class="invalid-feedback" role="alert">{{ $errors->first('subject') }}</span>
                     </div>
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label for="type">نوع رزرو:</label>
                         <select class="form-control custom-select @error('type') is-invalid @enderror" name="type"
+                                {{Auth::user()->level==2 ? 'disabled' : ''}}
                                 id="type">
                             <option value="">انتخاب کنید:</option>
                             @foreach($types as $type)
@@ -52,6 +54,7 @@
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label for="count">تعداد نفرات:</label>
                         <input class="form-control @error('count') is-invalid @enderror" type="text"
+                               {{Auth::user()->level==2 ? 'disabled' : ''}}
                                id="count" name="count" value="{{old('count',$reservation->count)}}">
                         <span class="invalid-feedback" role="alert">{{ $errors->first('count') }}</span>
                     </div>
@@ -59,11 +62,13 @@
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label for="transport">وسیله ایاب و ذهاب:</label>
                         <input class="form-control" type="text"
+                               {{Auth::user()->level==2 ? 'disabled' : ''}}
                                id="transport" name="transport" value="{{old('transport',$reservation->transport)}}">
                     </div>
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label for="catering_type">نوع پذیرایی:</label>
                         <select class="form-control custom-select @error('catering_type') is-invalid @enderror"
+                                {{Auth::user()->level==2 ? 'disabled' : ''}}
                                 name="catering_type" id="catering_type">
                             <option value="">انتخاب کنید:</option>
                             @foreach($cateringTypes as $cateringType)
@@ -76,6 +81,7 @@
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label for="jDate">تاریخ:</label>
                         <input id="jDate" type="text" data-mddatetimepicker="true" data-placement="top" name="jDate"
+                               {{Auth::user()->level==2 ? 'disabled' : ''}}
                                class="form-control @error('date') is-invalid @enderror" readonly
                                value="{{old('jDate')}}">
                         <input type="hidden" name="date" id="date"
@@ -85,12 +91,14 @@
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label for="duration">مدت زمان:</label>
                         <input class="form-control @error('duration') is-invalid @enderror" type="number" min="0"
+                               {{Auth::user()->level==2 ? 'disabled' : ''}}
                                id="duration" name="duration" value="{{old('duration',$reservation->duration)}}">
                         <span class="invalid-feedback" role="alert">{{ $errors->first('duration') }}</span>
                     </div>
                     <div class="form-group col-12 col-md-6 col-lg-4">
                         <label for="status">وضعیت:</label>
                         <select class="form-control custom-select @error('status') is-invalid @enderror"
+                                {{Auth::user()->level==2 ? 'disabled' : ''}}
                                 name="status" id="catering_type">
                             <option value="">انتخاب کنید:</option>
                             @foreach($statues as $status)
@@ -99,9 +107,17 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-12">
-                        <button class="btn btn-info">ارسال</button>
+                    <div class="form-group col-12">
+                        <label for="description">توضیحات</label>
+                        <textarea class="form-control" id="description"
+                                  {{Auth::user()->level==2 ? 'disabled' : ''}}
+                                  name="description">{{old('description',$reservation->description)}}</textarea>
                     </div>
+                    @if(Auth::user()->level==1)
+                        <div class="col-12">
+                            <button class="btn btn-info">ارسال</button>
+                        </div>
+                    @endif
                 </div>
             </form>
         </div>

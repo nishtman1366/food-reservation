@@ -31,9 +31,11 @@
                             <a href="{{route('reservations.view',['id'=>$reservation->id])}}"
                                class="btn btn-outline-primary"><i
                                     class="fa fa-pencil"></i></a>
-                            <a href="{{route('reservations.delete',['id'=>$reservation->id])}}"
-                               class="btn btn-outline-danger"><i
-                                    class="fa fa-trash"></i></a>
+                            @if(Auth::user()->level==1)
+                                <a href="{{route('reservations.delete',['id'=>$reservation->id])}}"
+                                   class="btn btn-outline-danger"><i
+                                        class="fa fa-trash"></i></a>
+                            @endif
                         </td>
                     </tr>
                     @php($i++)

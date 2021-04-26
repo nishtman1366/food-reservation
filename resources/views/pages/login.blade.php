@@ -6,19 +6,12 @@
         <div class="h-50" id="separator"></div>
         <div class="row h-100">
             <div class="col-6 d-flex align-items-center justify-content-center">
-                <div class="h-25 px-5">
-                    <h2 class="text-right text-danger">سامانه برخط رزرواسیون</h2>
-                    <h4 class="text-right">(غذا، اتاق جلسات، میهمان و ...)</h4>
-                    <div class="d-flex justify-content-start">
-                        <div class="px-3"><img style="width:50px" src="{{asset('assets/images/icons/chef.png')}}"></div>
-                        <div class="px-3"><img style="width:50px" src="{{asset('assets/images/icons/conferance.png')}}">
-                        </div>
-                        <div class="px-3"><img style="width:50px" src="{{asset('assets/images/icons/guest.png')}}">
-                        </div>
-                    </div>
-                </div>
+
+                <img class="w-100" src="{{asset('assets/images/login-bg.png')}}">
+
             </div>
-            <div class="col-6 d-flex align-items-center justify-content-center">
+            <div class="col-6 d-flex align-items-center justify-content-center"
+                 style="-webkit-animation: fadeIn 1s;animation: fadeIn 1s">
                 <div>
                     @if($errors->any())
                         <div class="alert alert-danger">
@@ -31,58 +24,50 @@
                     @endif
                     <form id="login" action="{{route('sign.in')}}" method="post">
                         @csrf
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                                        <path fill="currentColor"
-                                              d="M11,10V12H10V14H8V12H5.83C5.42,13.17 4.31,14 3,14A3,3 0 0,1 0,11A3,3 0 0,1 3,8C4.31,8 5.42,8.83 5.83,10H11M3,10A1,1 0 0,0 2,11A1,1 0 0,0 3,12A1,1 0 0,0 4,11A1,1 0 0,0 3,10M16,14C18.67,14 24,15.34 24,18V20H8V18C8,15.34 13.33,14 16,14M16,12A4,4 0 0,1 12,8A4,4 0 0,1 16,4A4,4 0 0,1 20,8A4,4 0 0,1 16,12Z"/>
+                        <div style="position: relative;padding-left: 5.5rem">
+                            <div class="form-fields">
+                                <div class="username">
+                                    <label>نام کاربری (کد پرسنلی)</label>
+                                    <input type="text"
+                                           name="username" id="username">
+                                </div>
+                                <div class="password">
+                                    <label>کلمه عبور (کد ملی)</label>
+                                    <input type="password"
+                                           name="password" id="password">
+                                </div>
+                            </div>
+                            <div id="submit">
+                                <a onclick="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                                        <filter id="submit_drop_shadow">
+                                            <feGaussianBlur in="SourceAlpha" stdDeviation="4"></feGaussianBlur>
+                                            <feOffset dx="0" dy="8"></feOffset>
+                                            <feComponentTransfer>
+                                                <feFuncA type="linear" slope="0.1"></feFuncA>
+                                            </feComponentTransfer>
+                                            <feMerge>
+                                                <feMergeNode></feMergeNode>
+                                                <feMergeNode in="SourceGraphic"></feMergeNode>
+                                            </feMerge>
+                                        </filter>
+                                        <path d="M29.1,44.2l3.9-3.9L17.7,25L33,9.7l-3.9-3.9L9.9,25L29.1,44.2z"></path>
                                     </svg>
-                                </span>
+                                </a>
                             </div>
-                            <input type="text" class="form-control" name="username" id="username"
-                                   placeholder="نام کاربری (کد پرسنلی)" aria-label="نام کاربری">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                                        <path fill="currentColor"
-                                              d="M22 17V16.5C22 15.12 20.88 14 19.5 14S17 15.12 17 16.5V17C16.45 17 16 17.45 16 18V22C16 22.55 16.45 23 17 23H22C22.55 23 23 22.55 23 22V18C23 17.45 22.55 17 22 17M21 17H18V16.5C18 15.67 18.67 15 19.5 15S21 15.67 21 16.5V17M8 8C8 5.79 9.79 4 12 4S16 5.79 16 8 14.21 12 12 12 8 10.21 8 8M14 20H4V18C4 15.79 7.58 14 12 14C13.27 14 14.46 14.15 15.53 14.41C15.32 14.82 15.15 15.25 15.07 15.71C14.42 16.26 14 17.08 14 18V20Z"/>
-                                    </svg>
-                                </span>
-                            </div>
-                            <input type="password" class="form-control h5" name="password" id="password"
-                                   placeholder="کلمه عبور (کد ملی)" aria-label="کلمه عبور (کد ملی)">
-                            <div class="d-flex align-items-center justify-content-center" style="cursor: pointer"
-                                 id="submit">
-                                <svg style="width:36px;height:36px" viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                          d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="form-inline">
-                            <label for="remember">مرا به خاطر بسپار</label>
-                            <input class="form-check-inline" type="checkbox" name="remember" value="true"
-                                   id="remember">
-
-                            <a href="#" id="get-personal-code" class="btn btn-warning m-auto">دریافت کد
-                                پرسنلی</a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <footer class="d-flex align-items-end">
-            <div class="flex-grow-1 w-75">
-                <h6 class="text-center text-light">
-                    تهیه شده در واحد فناوری اطلاعات و ارتباطات<br>
-                    به سفارش واحد منابع انسانی
-                </h6>
+        <footer class="d-flex align-items-center px-3">
+            <img src="{{asset('assets/images/brand-logo.png')}}" class="h-50" alt="شرکت ریخته گری دقیق پارس">
+            <div class="text-right pr-2 text-light">تهیه شده در واحد فناوری اطلاعات و ارتباطات ( فاوا ) شرکت ریخته گری
+                دقیق پارس
             </div>
-            <div class="h-100 py-1 px-3">
-                <img src="{{asset('assets/images/logo.png')}}" class="h-100" alt="شرکت ریخته گری دقیق پارس">
+            <div class="flex-grow-1">
+                <a href="#" id="get-personal-code" class="btn btn-warning m-auto">دریافت کد
+                    پرسنلی</a>
             </div>
         </footer>
     </div>
@@ -138,18 +123,197 @@
             background: rgba(0, 0, 0, .3) linear-gradient(rgba(0, 0, 0, .1), transparent 0.4rem);
         }
 
-        .input-group > .input-group-prepend > .input-group-text {
-            border-top-right-radius: .25rem;
-            border-bottom-right-radius: .25rem;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+        .form-fields > div {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            padding-right: 60.8px;
+            padding-right: 3.8rem;
+            border-radius: .3rem;
+            margin: 24px 0;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            -webkit-box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0), 0 0.7rem 1rem rgba(0, 0, 0, .05);
+            box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0), 0 0.7rem 1rem rgba(0, 0, 0, .05);
+            -webkit-transition: -webkit-box-shadow .5s;
+            transition: -webkit-box-shadow .5s;
+            transition: box-shadow .5s;
+            transition: box-shadow .5s, -webkit-box-shadow .5s;
+            -webkit-animation: form-field .7s both;
+            animation: form-field .7s both;
+            animation-delay: 0s;
+            -webkit-animation-delay: .15s;
+            animation-delay: .15s;
         }
 
-        .input-group > .form-control:not(:first-child) {
-            border-top-left-radius: .25rem;
-            border-bottom-left-radius: .25rem;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
+        .form-fields > div:before {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            width: 60.8px;
+            width: 3.8rem;
+            background: rgba(0, 0, 0, .3) 50% 50% no-repeat;
+            background-image: none;
+            background-size: auto;
+            background-size: 1.6rem;
+            opacity: 0.7;
+            border-radius: 0 .3rem .3rem 0;
+            -webkit-transition: all 0.2s;
+            transition: all 0.2s;
+        }
+
+        .form-fields > div label {
+            position: absolute;
+            top: 20.8px;
+            top: 1.3rem;
+            right: 76.8px;
+            right: 4.8rem;
+            font-size: 16px;
+            font-size: 1rem;
+            opacity: 0.4;
+            pointer-events: none;
+            -webkit-transition: all .2s;
+            transition: all .2s;
+        }
+
+        .form-fields > div.filled label {
+            top: 12.8px;
+            top: .8rem;
+            font-size: 11.2px;
+            font-size: .7rem;
+            opacity: 0.5;
+        }
+
+        .form-fields > div input {
+            display: block;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 320px;
+            width: 20rem;
+            background: rgba(255, 255, 255, .8);
+            border: none;
+            padding: 27.2px 16px 11.2px 16px;
+            padding: 1.7rem 1rem .7rem 1rem;
+            outline: none;
+            font-size: 20.8px;
+            font-size: 1.3rem;
+            -webkit-transition: background-color 0.5s;
+            transition: background-color 0.5s;
+        }
+
+        .form-fields > div.username:before {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27.85' height='27.85' viewBox='0 0 27.85 27.85'%3E %3Cg id='person'%3E %3Cg id='Group_22' data-name='Group 22'%3E %3Cpath id='Path_886' data-name='Path 886' d='M18.8,17.174a9.161,9.161,0,0,0,4.41-7.891,9.283,9.283,0,1,0-18.567,0,9.161,9.161,0,0,0,4.41,7.891A14.351,14.351,0,0,0,0,27.85H2.321a11.894,11.894,0,0,1,23.208,0H27.85A13.976,13.976,0,0,0,18.8,17.174ZM6.962,9.283a6.962,6.962,0,1,1,6.962,6.962A6.983,6.983,0,0,1,6.962,9.283Z' fill='%23fff'/%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+        }
+
+        .form-fields > div.password:before {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28.322' height='29.593' viewBox='0 0 28.322 29.593'%3E %3Cg id='Group_58' data-name='Group 58' transform='translate(-11 0)' fill='%23fff'%3E %3Cpath id='Path_939' data-name='Path 939' d='M25.369,194.947H13.358v-8.2H25.369ZM15.225,184.393a4.146,4.146,0,0,1,8.288,0Zm-2.364,0c0,.1-1.7-.433-1.861,1.179v10.554a1.177,1.177,0,0,0,1.179,1.179H26.548a1.177,1.177,0,0,0,1.179-1.179V185.572c-.15-1.584-1.861-1.1-1.861-1.179,0,0-.5-6.393-6.5-6.393S12.861,184.393,12.861,184.393Z' transform='translate(0 -167.712)'/%3E %3Cg id='Group_57' data-name='Group 57' transform='translate(11)'%3E %3Cpath id='Path_940' data-name='Path 940' d='M34.767,14.415a4.563,4.563,0,0,0,4.555-4.555V4.555A4.563,4.563,0,0,0,34.767,0H15.555A4.563,4.563,0,0,0,11,4.555V9.861a4.219,4.219,0,0,0,1.929,3.72l.117.06a5.532,5.532,0,0,1,1.287-1.946l-.148-.118a2.217,2.217,0,0,1-.827-1.717V4.555a2.2,2.2,0,0,1,2.2-2.2H34.767a2.2,2.2,0,0,1,2.2,2.2V9.861a2.2,2.2,0,0,1-2.2,2.2h-9.9l-.1,0a7.488,7.488,0,0,1,1.149,2.357Z' transform='translate(-11)'/%3E %3Ccircle id='Ellipse_83' data-name='Ellipse 83' cx='1.635' cy='1.635' r='1.635' transform='translate(5.359 5.573)'/%3E %3Ccircle id='Ellipse_84' data-name='Ellipse 84' cx='1.635' cy='1.635' r='1.635' transform='translate(19.231 5.573)'/%3E %3Ccircle id='Ellipse_85' data-name='Ellipse 85' cx='1.635' cy='1.635' r='1.635' transform='translate(12.295 5.573)'/%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+        }
+
+        #submit {
+            position: absolute;
+            left: 0;
+            bottom: -1.6px;
+            bottom: -0.1rem;
+        }
+
+        #submit a {
+            display: block;
+            cursor: pointer;
+            width: 64px;
+            width: 4rem;
+            height: 64px;
+            height: 4rem;
+            text-align: center;
+            position: relative;
+            -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+            transition: opacity 0.2s, -webkit-transform 0.2s;
+            transition: opacity 0.2s, transform 0.2s;
+            transition: opacity 0.2s, transform 0.2s, -webkit-transform 0.2s;
+            opacity: 0.7;
+        }
+
+        #submit a:before {
+            background: -webkit-gradient(linear, left top, right bottom, from(rgba(15, 200, 255, .5)), to(rgba(0, 250, 20, .5)));
+            background: linear-gradient(to right bottom, rgba(15, 200, 255, .5), rgba(0, 250, 20, .5));
+            -webkit-box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, .1);
+            box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, .1);
+        }
+
+        #submit a:before, #submit a:after {
+            display: block;
+            cursor: pointer;
+            width: 64px;
+            width: 4rem;
+            height: 64px;
+            height: 4rem;
+            text-align: center;
+            position: relative;
+            -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+            transition: opacity 0.2s, -webkit-transform 0.2s;
+            transition: opacity 0.2s, transform 0.2s;
+            transition: opacity 0.2s, transform 0.2s, -webkit-transform 0.2s;
+            opacity: 0.7;
+
+            content: '';
+            border-radius: 100%;
+            border: 1px solid rgba(255, 255, 255, .3);
+            -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+            opacity: 0;
+            -webkit-transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+            z-index: -1;
+
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        #submit a svg {
+            margin: 8px;
+            margin: .5rem;
+            width: 48px;
+            width: 3rem;
+            height: 48px;
+            height: 3rem;
+            -webkit-animation: submit-button 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+            animation: submit-button 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+            animation-delay: 0s;
+            -webkit-animation-delay: .55s;
+            animation-delay: .55s;
+        }
+
+        #submit a:after {
+            border: 1px solid rgba(255, 255, 255, .1);
+            -webkit-transform: scale(1.7);
+            transform: scale(1.7);
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+
+        @keyframes submit-button {
+            0% {
+                -webkit-transform: translateX(1rem);
+                transform: translateX(1rem);
+                opacity: 0;
+            }
+        }
+
+        @keyframes form-field {
+            0% {
+                -webkit-transform: translateX(1rem);
+                transform: translateX(1rem);
+                opacity: 0;
+            }
+            100% {
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
     </style>
 @endpush
@@ -157,11 +321,19 @@
     <script>
         $(document).ready(function () {
             $("#username").focus();
+            $(".form-fields > div input").focus(function () {
+                $(this).parent().addClass('filled');
+            });
+            $(".form-fields > div input").blur(function () {
+                if ($(this).val() === '') {
+                    $(this).parent().removeClass('filled');
+                }
+            });
             $("#submit").click(function () {
                 $("#login").submit();
             });
 
-            $(".form-control").keypress(function (e) {
+            $(".form-fields > div input").keypress(function (e) {
                 var key = e.which;
                 if (key == 13) {
                     $("#login").submit();

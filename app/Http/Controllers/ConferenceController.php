@@ -11,7 +11,14 @@ class ConferenceController extends Controller
 {
     public function index(Request $request)
     {
-        $reservations = Conference::with('user')->orderBy('id', 'DESC')->paginate(20);
+        $user = Auth::user();
+        $reservations = Conference::with('user')
+            ->where(function ($query) use ($user) {
+                if ($user->level != 1) {
+                    $query->where('user_id', $user->id);
+                }
+            })
+            ->orderBy('id', 'DESC')->paginate(20);
         return view('pages.reservations.list', compact('reservations'));
     }
 

@@ -33,6 +33,11 @@
                         صفحه اصلی
                     </a>
                 </li>
+                <li class="nav-item font-size-normal dropdown">
+                    <a class="nav-link app-bar-menu-item" href="{{route('reservations.list')}}" role="button">
+                        درخواست های من
+                    </a>
+                </li>
                 @auth
                     @if(Auth::user()->level==1)
                         <li class="nav-item font-size-normal dropdown">
@@ -153,10 +158,6 @@
                             </div>
                         </div>
                         <img src="{{asset('assets/images/logo.png')}}" class="w-100" alt="شرکت ریخته گری دقیق پارس">
-                        <h6 class="text-center text-light border border-dark rounded bg-danger">
-                            تهیه شده در واحد فناوری اطلاعات و ارتباطات<br>
-                            به سفارش واحد منابع انسانی
-                        </h6>
                     </div>
                 </div>
             </div>

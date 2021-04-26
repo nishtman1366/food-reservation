@@ -8,7 +8,7 @@ use Morilog\Jalali\Jalalian;
 
 class Conference extends Model
 {
-    protected $fillable = ['user_id', 'type', 'subject', 'count', 'catering_type', 'date', 'duration', 'transport', 'status'];
+    protected $fillable = ['user_id', 'type', 'subject', 'count', 'catering_type', 'date', 'duration', 'transport', 'status', 'description'];
 
     protected $appends = ['typeText', 'cateringTypeText', 'statusText', 'jDate', 'jCreatedDate'];
 
