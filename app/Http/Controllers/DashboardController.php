@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Poll;
+use App\Models\Survey\Answer;
+use App\Models\Survey\Question;
+use App\Models\Survey\UsersAnswer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,14 +15,23 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $yesterday = Carbon::yesterday();
+//        $yesterday = Carbon::yesterday();
         $user = Auth::user();
-        $jYesterday = Jalalian::forge($yesterday)->format('Y/m/d');
-        $poll = Poll::where('date', $yesterday)
-            ->where('user_id', $user->id)
-            ->exists();
+//        $jYesterday = Jalalian::forge($yesterday)->format('Y/m/d');
+//        $poll = Poll::where('date', $yesterday)
+//            ->where('user_id', $user->id)
+//            ->exists();
 
-        return view('pages.home', ['poll' => $poll, 'yesterday' => $jYesterday]);
+        $questions = Question::with('answers')
+            ->where('status', true)
+            ->get()
+            ->each(function ($question) use ($user) {
+                $answers = Answer::where('question_id', $question->id)->pluck('id');
+                $userAnswers = UsersAnswer::where('user_id', $user->id)->whereIn('answer_id', $answers)->exists();
+                $question->voted = $userAnswers;
+            });
+
+        return view('pages.home', ['questions' => $questions]);
     }
 
     public function login(Request $request)

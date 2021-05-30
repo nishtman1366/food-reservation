@@ -118,6 +118,11 @@
                             </a>
                         </li>
                         <li class="nav-item font-size-normal dropdown">
+                            <a class="nav-link app-bar-menu-item" href="{{route('surveys.questions.list')}}" role="button">
+                                نظرسنجی ها
+                            </a>
+                        </li>
+                        <li class="nav-item font-size-normal dropdown">
                             <a class="nav-link app-bar-menu-item" href="{{route('reports.list')}}" role="button">
                                 گزارشات
                             </a>

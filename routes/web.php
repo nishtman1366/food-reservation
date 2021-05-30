@@ -48,6 +48,20 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('/{id}/delete', 'ConferenceController@destroy')->name('delete');
     });
 
+
+    Route::prefix('surveys')->name('surveys.')->namespace('Survey')->group(function () {
+        Route::post('', 'QuestionController@submit')->name('submit');
+        Route::prefix('questions')->name('questions.')->group(function () {
+            Route::get('/', 'QuestionController@index')->name('list');
+            Route::get('/new', 'QuestionController@create')->name('create');
+            Route::post('/', 'QuestionController@store')->name('store');
+            Route::get('/{id}', 'QuestionController@view')->name('view');
+            Route::put('/{id}', 'QuestionController@update')->name('update');
+            Route::get('/{id}/delete', 'QuestionController@destroy')->name('delete');
+            Route::get('/{id}/stats', 'QuestionController@stats')->name('stats');
+        });
+    });
+
     Route::prefix('reports')->group(function () {
         Route::get('/', 'ReportController@index')->name('reports.list');
         Route::match(['get', 'post'], '/{name}', 'ReportController@view')->name('reports.view');
