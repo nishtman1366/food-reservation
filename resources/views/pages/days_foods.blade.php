@@ -240,7 +240,7 @@
                     $(this).prop('disabled', true);
                     $(this).text('درحال ارسال اطلاعات...');
                     $("#loading").addClass('d-flex');
-                    Axios.put('days-foods', {gDate, type, foodsList})
+                    Axios.post('days-foods', {gDate, type, foodsList})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             $("#new-food-Modal").modal('toggle');

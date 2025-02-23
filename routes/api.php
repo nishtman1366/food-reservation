@@ -23,7 +23,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('foods/{id}', 'FoodController@delete');
 
     Route::post('days-foods', 'DaysFoodController@create');
-    Route::put('days-foods', 'DaysFoodController@update');
+    Route::post('days-foods', 'DaysFoodController@update');
     Route::delete('days-foods/{date}', 'DaysFoodController@delete');
     Route::post('reservations', 'OrderController@create');
 
