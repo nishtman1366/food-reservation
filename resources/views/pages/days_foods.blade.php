@@ -240,7 +240,7 @@
                     $(this).prop('disabled', true);
                     $(this).text('درحال ارسال اطلاعات...');
                     $("#loading").addClass('d-flex');
-                    Axios.put('days-foods', {gDate, type, foodsList})
+                    Axios.post('days-foods/update', {gDate, type, foodsList})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             $("#new-food-Modal").modal('toggle');
@@ -267,7 +267,7 @@
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#confirm-delete").click(function () {
                     $("#loading").addClass('d-flex');
-                    Axios.delete('days-foods/' + date.replace('/', '-').replace('/', '-'))
+                    Axios.post('days-foods/' + date.replace('/', '-').replace('/', '-') + '/delete')
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             $("#menu-row-" + date.replace('/', '-').replace('/', '-')).remove();

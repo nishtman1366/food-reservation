@@ -100,7 +100,7 @@
                 $('#edit-unit').click(function () {
                     let name = $('#name').val();
                     $("#loading").addClass('d-flex');
-                    Axios.put('units/' + id, {name})
+                    Axios.post('units/' + id, {name})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             setTimeout(function () {
@@ -125,7 +125,7 @@
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#confirm-delete").click(function () {
                     $("#loading").addClass('d-flex');
-                    Axios.delete('units/' + id)
+                    Axios.post('units/' + id + '/delete')
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             setTimeout(function () {

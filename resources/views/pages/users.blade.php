@@ -4,10 +4,14 @@
     <form action="{{route('users.list')}}" method="post">
         @csrf
         <div class="input-group">
-            <span class="input-group-text border-left-0" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">جستجو: </span>
-            <input class="form-control border-right-0 border-left-0" style="border-radius: 0;" type="text" name="searchQuery" value="{{old('searchQuery',null)}}">
+            <span class="input-group-text border-left-0"
+                  style="border-top-left-radius: 0;border-bottom-left-radius: 0;">جستجو: </span>
+            <input class="form-control border-right-0 border-left-0" style="border-radius: 0;" type="text"
+                   name="searchQuery" value="{{old('searchQuery',null)}}">
             <button class="btn btn-primary border-right-0 border-left-0" style="border-radius: 0;">جستجو</button>
-            <button type="button" class="btn btn-info border-right-0" style="border-top-right-radius: 0;border-bottom-right-radius: 0;" id="new-user-btn">ثبت کاربر جدید</button>
+            <button type="button" class="btn btn-info border-right-0"
+                    style="border-top-right-radius: 0;border-bottom-right-radius: 0;" id="new-user-btn">ثبت کاربر جدید
+            </button>
         </div>
     </form>
     <table class="table table-striped table-hover">
@@ -150,7 +154,7 @@
                     let national_code = $('#national_code').val();
                     let personal_code = $('#personal_code').val();
                     $("#loading").addClass('d-flex');
-                    Axios.put('users/' + id, {first_name, last_name, user_units_id, national_code, personal_code})
+                    Axios.post('users/' + id, {first_name, last_name, user_units_id, national_code, personal_code})
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             setTimeout(function () {
@@ -175,7 +179,7 @@
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#confirm-delete").click(function () {
                     $("#loading").addClass('d-flex');
-                    Axios.delete('users/' + id)
+                    Axios.post('users/' + id + '/delete')
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             setTimeout(function () {

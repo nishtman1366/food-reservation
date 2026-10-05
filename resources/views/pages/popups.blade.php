@@ -152,7 +152,7 @@
                             let end = $("#endGDate").val();
                             $(this).prop('disabled', true);
                             $(this).text('درحال ارسال اطلاعات...');
-                            Axios.put('admin/popups/' + id, {title, body, start, end})
+                            Axios.post('admin/popups/' + id, {title, body, start, end})
                                 .then(function (reponse) {
                                     toastr.success('با موفقیت انجام شد.');
                                     $("#new-popup-Modal").modal('toggle');
@@ -188,7 +188,7 @@
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#confirm-delete").click(function () {
                     $("#loading").addClass('d-flex');
-                    Axios.delete('admin/popups/' + id)
+                    Axios.post('admin/popups/' + id + '/delete')
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             $("#menu-row-" + id).remove();

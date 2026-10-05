@@ -140,7 +140,7 @@
                     '<button class="btn btn-secondary clear m-1">خیر</button>');
                 $("#loading").addClass('d-flex');
                 $("#confirm-delete").click(function () {
-                    Axios.delete('foods/' + id)
+                    Axios.post('foods/' + id + '/delete')
                         .then(function (response) {
                             toastr.success('با موفقیت انجام شد.');
                             setTimeout(function () {
